@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by ctilluma on 10/8/16.
@@ -11,11 +13,12 @@ public class Mead {
     private GregorianCalendar startDate;
     private double OG; //Original
     private SpecGravity lastTest; //Most Recent test results
-    private SpecGravity[] testResults; // List of all test results
+    private List<SpecGravity> testResults; // List of all test results
     private double capacity; // Holds tank total capacity
     private double volume; // Current volume used in tank
     private double alcohol; //Current ABV
-    private Honey[] honey; //Honey in Batch
+    private List<Honey> honey; //Honey in Batch
+    private String name; //Mead Name
 
 
     // Constructors
@@ -28,18 +31,19 @@ public class Mead {
     }
 
     public Mead(double OG, double capacity, double volume) {
-        this(OG, capacity, volume, new Honey[0]);
+        this(OG, capacity, volume, new ArrayList<Honey>());
     }
 
-    public Mead(double OG, double capacity, double volume, Honey[] honey) {
+    public Mead(double OG, double capacity, double volume, List<Honey> honey) {
         this(OG,capacity, volume, honey, new GregorianCalendar(), new SpecGravity(OG));
     }
 
-    public Mead(double OG, double capacity, double volume, Honey[] honey, GregorianCalendar startDate, SpecGravity lastTest) {
-        this(OG,capacity, volume, honey, startDate, lastTest, new SpecGravity[0], 0.00);
+    public Mead(double OG, double capacity, double volume, List<Honey> honey, GregorianCalendar startDate, SpecGravity lastTest) {
+        this(OG,capacity, volume, honey, startDate, lastTest, new ArrayList<SpecGravity>(), 0.00, "");
     }
 
-    public Mead(double OG, double capacity, double volume, Honey[] honey, GregorianCalendar startDate, SpecGravity lastTest, SpecGravity[] testResults, double alcohol) {
+
+    public Mead(double OG, double capacity, double volume, List<Honey> honey, GregorianCalendar startDate, SpecGravity lastTest, List<SpecGravity> testResults, double alcohol, String name) {
         this.OG = OG;
         this.capacity = capacity;
         this.volume = volume;
@@ -48,6 +52,7 @@ public class Mead {
         this.lastTest = lastTest;
         this.testResults = testResults;
         this.alcohol = alcohol;
+        this.name = name;
     }
 
 
@@ -76,11 +81,11 @@ public class Mead {
         this.lastTest = lastTest;
     }
 
-    public SpecGravity[] getTestResults() {
+    public List<SpecGravity> getTestResults() {
         return testResults;
     }
 
-    public void setTestResults(SpecGravity[] testResults) {
+    public void setTestResults(List<SpecGravity> testResults) {
         this.testResults = testResults;
     }
 
@@ -108,13 +113,55 @@ public class Mead {
         this.alcohol = alcohol;
     }
 
-    public Honey[] getHoney() {
+    public List<Honey> getHoney() {
         return honey;
     }
 
-    public void setHoney(Honey[] honey) {
+    public void setHoney(List<Honey> honey) {
         this.honey = honey;
     }
 
+    // Methods
+    public void newTest(SpecGravity testData) {
+        this.testResults.add(testData);
+        if (testData.getTestDate().after(this.getLastTest())) {  // Check if newest test is more current
+            this.setLastTest(testData);         //Set to new test
+            this.setAlcohol(testData.getAlcohol(this.getOG()));  //Set alcohol level
+        }
+    }
 
+    public int addHoney(Honey honey, double quantityHoney) {
+        //Check for a negative quantity
+        if (quantityHoney < 0.0) {
+            return 1; //Return 1 for negative quantity
+        }
+
+        //increase volumes appropriately
+        honey.setVolume(quantityHoney); //Set the amount of honey
+        this.honey.add(honey); //Add new honey to list
+        this.volume += quantityHoney; //Add volume to batch
+
+        //check new volume is less than capacity or return error
+        if (this.volume > this.capacity) {
+            this.volume = this.capacity;
+            return 2; //Return 2 for overcapacity
+        }
+
+        //return success
+        return 0;
+    }
+
+    public void computeOriginalGravity() {
+        double honeyAdjustment = 0.00;
+        double honeyTotal = 0.00;
+        Honey currentHoney;
+
+        for (int i=0;i<honey.size();i++) { //Loop through and add volume of honey and SG adjustment
+            currentHoney = honey.get(i);
+            honeyTotal += currentHoney.getVolume();
+            honeyAdjustment += ((currentHoney.getSG() * currentHoney.getVolume()) / this.volume );
+        }
+
+        this.setOG((this.volume - honeyTotal) + honeyAdjustment);
+    }
 }
