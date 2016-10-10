@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="mead_context_menu">
+        <item>Test</item>
+        <item>Filter</item>
+        <item>Bottle</item>
+        <item>Add Honey</item>
+        <item>Delete</item>
+    </string-array>
+</resources>

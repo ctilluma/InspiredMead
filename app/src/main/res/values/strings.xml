@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">InspiredMead</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_mead_list">Inspired Mead</string>
+    <string name="title_activity_meads">Meads</string>
+
+    <string name="title_activity_mead">Inspired Mead</string>
+    <string name="add_mead_button">Add Mead</string>
+    <string name="action_add">Add</string>
+    <string name="sGravity">Specific Gravity</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="curVolume">Current Volume</string>
+    <string name="tankCapacity">Tank Capacity</string>
+    <string name="meadName">Mead Name</string>
 </resources>
+

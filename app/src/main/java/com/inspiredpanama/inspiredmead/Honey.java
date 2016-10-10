@@ -1,3 +1,5 @@
+package com.inspiredpanama.inspiredmead;
+
 /**
  * Created by ctilluma on 10/8/16.
  */
@@ -5,10 +7,11 @@
 public class Honey {
     //Variables
     private long id; //id record
-    private double brix; // Sugar content of this Honey
+    private long honeyID;
+    private double brix; // Sugar content of this com.inspiredpanama.inspiredmead.Honey
     private String name; // Name of honey
-    private String flavor; // Flavor of Honey
-    private double volume; //Volume of Honey
+    private String flavour; // Flavor of com.inspiredpanama.inspiredmead.Honey
+    private double volume; //Volume of com.inspiredpanama.inspiredmead.Honey
 
     //Constructors
     public Honey() {
@@ -19,19 +22,24 @@ public class Honey {
         this(name, new String());
     }
 
-    public Honey(String name, String flavor) {
-        this(81.5, name, flavor);   // Use rough Brix value
+    public Honey(String name, String flavour) {
+        this(81.5, name, flavour);   // Use rough Brix value
     }
 
-    public Honey(double brix, String name, String flavor) {
-        this(-1, brix, name, flavor, 0.00); //send -1 for id since no database id known
+    public Honey(double brix, String name, String flavour) {
+        this(-1, 0, brix, name, flavour, 0.00); //send -1 for id since no database id known
     }
 
-    public Honey(int id, double brix, String name, String flavor, double volume) {
+    public Honey(long id, double brix, String name, String flavour) {
+        this(id, 0, brix, name, flavour, 0.00);
+    }
+    
+    public Honey(long id, long honeyID, double brix, String name, String flavour, double volume) {
         this.id = id;
+        this.honeyID = honeyID;
         this.brix = brix;
         this.name = name;
-        this.flavor = flavor;
+        this.flavour = flavour;
         this.volume = volume;
     }
 
@@ -42,6 +50,14 @@ public class Honey {
 
     public void setID(long id) {
         this.id = id;
+    }
+
+    public long getHoneyID() {
+        return honeyID;
+    }
+
+    public void setHoneyID(long id) {
+        this.honeyID = honeyID;
     }
 
     public double getBrix() {
@@ -61,11 +77,11 @@ public class Honey {
     }
 
     public String getFlavor() {
-        return flavor;
+        return flavour;
     }
 
-    public void setFlavor(String flavor) {
-        this.flavor = flavor;
+    public void setFlavor(String flavour) {
+        this.flavour = flavour;
     }
 
     public double getVolume() {

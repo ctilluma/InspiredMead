@@ -1,3 +1,5 @@
+package com.inspiredpanama.inspiredmead;
+
 import java.util.GregorianCalendar;
 
 /**
@@ -20,7 +22,7 @@ public class SpecGravity {
         this(-1, new GregorianCalendar(), testGravity); //Set id as negative because it doesn't have a database number
     }
 
-    public SpecGravity(int id, GregorianCalendar testDate, double testGravity) {   //Constructor w/ all info known
+    public SpecGravity(long id, GregorianCalendar testDate, double testGravity) {   //Constructor w/ all info known
         this.id = id;
         this.testDate = testDate;
         this.testGravity = testGravity;

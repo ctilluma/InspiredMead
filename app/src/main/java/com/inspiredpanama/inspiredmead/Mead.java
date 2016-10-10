@@ -1,6 +1,9 @@
+package com.inspiredpanama.inspiredmead;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * Created by ctilluma on 10/8/16.
@@ -17,8 +20,10 @@ public class Mead {
     private double capacity; // Holds tank total capacity
     private double volume; // Current volume used in tank
     private double alcohol; //Current ABV
-    private List<Honey> honey; //Honey in Batch
-    private String name; //Mead Name
+    private List<Honey> honey; //com.inspiredpanama.inspiredmead.Honey in Batch
+    private String name; //com.inspiredpanama.inspiredmead.Mead Name
+    private long id; //database ID
+
 
 
     // Constructors
@@ -26,24 +31,30 @@ public class Mead {
         this(0.00, 0.00);
     }
 
+    public Mead(String name) { this(0.00, 0.00); this.name = name;}
+
     public Mead(double OG, double volume) {
         this(OG, volume, volume);
     }
 
     public Mead(double OG, double capacity, double volume) {
-        this(OG, capacity, volume, new ArrayList<Honey>());
+        this(OG, capacity, volume, null);
     }
 
     public Mead(double OG, double capacity, double volume, List<Honey> honey) {
-        this(OG,capacity, volume, honey, new GregorianCalendar(), new SpecGravity(OG));
+        this(OG,capacity, volume, honey, new GregorianCalendar(), null);
     }
 
     public Mead(double OG, double capacity, double volume, List<Honey> honey, GregorianCalendar startDate, SpecGravity lastTest) {
-        this(OG,capacity, volume, honey, startDate, lastTest, new ArrayList<SpecGravity>(), 0.00, "");
+        this(-1, OG,capacity, volume, honey, startDate, lastTest, null, 0.00, "");
     }
 
+    public Mead(long id, String name, double OG, double capacity, double volume, double alcohol) {
+        this(id, OG, capacity, volume, null, new GregorianCalendar(), null, null, alcohol, name);
+    }
 
-    public Mead(double OG, double capacity, double volume, List<Honey> honey, GregorianCalendar startDate, SpecGravity lastTest, List<SpecGravity> testResults, double alcohol, String name) {
+    public Mead(long id, double OG, double capacity, double volume, List<Honey> honey, GregorianCalendar startDate, SpecGravity lastTest, List<SpecGravity> testResults, double alcohol, String name) {
+        this.id = id;
         this.OG = OG;
         this.capacity = capacity;
         this.volume = volume;
@@ -57,6 +68,10 @@ public class Mead {
 
 
     // Getter and Setter Methods
+    public long getId() { return id; }
+
+    public void setId(long id) { this.id = id; }
+
     public GregorianCalendar getStartDate() {
         return startDate;
     }
@@ -121,6 +136,10 @@ public class Mead {
         this.honey = honey;
     }
 
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
+
     // Methods
     public void newTest(SpecGravity testData) {
         this.testResults.add(testData);
@@ -163,5 +182,27 @@ public class Mead {
         }
 
         this.setOG((this.volume - honeyTotal) + honeyAdjustment);
+    }
+
+    public void setMostCurrentTest() {
+        SpecGravity currentTest = null;
+        SpecGravity loopTestResult;
+
+        //Loop through tests
+        if (this.getTestResults().size()>1) {
+            for (int i=0;i<this.getTestResults().size();i++) {
+                loopTestResult = this.getTestResults().get(i);
+
+                if (currentTest == null) {  //If current is null, fill with first record
+                    currentTest = loopTestResult;
+                } else { //otherwise check for more current test
+                    if (currentTest.getTestDate().after(loopTestResult.getTestDate())) {
+                        currentTest = loopTestResult;  //set to more current
+                    }
+                }
+            }
+        }
+
+        this.lastTest = currentTest;
     }
 }
