@@ -14,9 +14,103 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
     <RelativeLayout
-        android:id="@+id/list"
+        android:id="@+id/md_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/my_toolbar"
         />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:ems="10"
+        android:id="@+id/md_name"
+        android:hint="@string/meadName"
+        android:inputType="text"
+        android:layout_below="@+id/md_list"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"/>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/md_name"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:focusableInTouchMode="false"
+            android:text="OG: "
+            android:textSize="14dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="4dp" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="1.000"
+            android:textSize="14dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="-8dp"
+            android:id="@+id/md_OG" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:focusableInTouchMode="false"
+            android:text="Cur SG: "
+            android:textSize="14dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="4dp" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="1.000"
+            android:textSize="14dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="-8dp"
+            android:id="@+id/md_SG" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:focusableInTouchMode="false"
+            android:text="Alcohol: "
+            android:textSize="14dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="4dp"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="12"
+            android:textSize="14dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="-8dp"
+            android:layout_marginLeft="-8dp"
+            android:id="@+id/md_alcohol" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:focusableInTouchMode="false"
+            android:text="% ABV"
+            android:textSize="14dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="4dp"/>
+    </LinearLayout>
+
 </RelativeLayout>

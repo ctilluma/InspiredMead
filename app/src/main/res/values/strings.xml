@@ -13,5 +13,6 @@
     <string name="curVolume">Current Volume</string>
     <string name="tankCapacity">Tank Capacity</string>
     <string name="meadName">Mead Name</string>
+    <string name="action_back">Back</string>
 </resources>
 
