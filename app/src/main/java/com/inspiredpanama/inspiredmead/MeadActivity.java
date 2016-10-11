@@ -5,10 +5,10 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -18,8 +18,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.GregorianCalendar;
@@ -54,11 +54,6 @@ public class MeadActivity extends AppCompatActivity {
         pDialog.show();
         mead = getAllMeadFromDB();
         hidePDialog();
-        mead.add(new MeadData(new Mead("Something")));
-        mead.add(new MeadData(new Mead(1.0,1.0)));
-        mead.add(new MeadData(new Mead("Else")));
-        mead.add(new MeadData(new Mead(2.0,2.0)));
-        mead.add(new MeadData(new Mead(3.5,6.5)));
 
         //Create and populate List
         listView = (ListView) findViewById(R.id.list);
@@ -253,35 +248,35 @@ public class MeadActivity extends AppCompatActivity {
                 case R.id.button_ok:
                     Mead myMead = new Mead();
                     long myID = 0;
-                    EditText editText;
+                    TextView textView;
 
                     //Set Data from Dialog
                     //TODO Check boundaries of numbers
-                    editText = (EditText)findViewById(R.id.name);
-                    if (editText.getText().toString() == null || editText.getText().toString().isEmpty()) {
+                    textView = (TextView) findViewById(R.id.name);
+                    if (textView.getText().toString() == null || textView.getText().toString().isEmpty()) {
                         myMead.setName("");
                     } else {
-                        myMead.setName(editText.getText().toString());
+                        myMead.setName(textView.getText().toString());
                     }
 
-                    editText = (EditText)findViewById(R.id.og);
-                    if (editText.getText().toString() == null || editText.getText().toString().isEmpty()) {
+                    textView = (TextView) findViewById(R.id.og);
+                    if (textView.getText().toString() == null || textView.getText().toString().isEmpty()) {
                         myMead.setOG(0.000);
                     } else {
-                        myMead.setOG(Double.parseDouble(editText.getText().toString()));
+                        myMead.setOG(Double.parseDouble(textView.getText().toString()));
                     }
 
-                    editText = (EditText)findViewById(R.id.capacity);
-                    if (editText.getText().toString() == null || editText.getText().toString().isEmpty()) {
+                    textView = (TextView) findViewById(R.id.capacity);
+                    if (textView.getText().toString() == null || textView.getText().toString().isEmpty()) {
                         myMead.setCapacity(19.000);
                     } else {
-                        myMead.setCapacity(Double.parseDouble(editText.getText().toString()));
+                        myMead.setCapacity(Double.parseDouble(textView.getText().toString()));
                     }
-                    editText = (EditText)findViewById(R.id.volume);
-                    if (editText.getText().toString() == null || editText.getText().toString().isEmpty()) {
+                    textView = (TextView) findViewById(R.id.volume);
+                    if (textView.getText().toString() == null || textView.getText().toString().isEmpty()) {
                         myMead.setVolume(0.000);
                     } else {
-                        myMead.setVolume(Double.parseDouble(editText.getText().toString()));
+                        myMead.setVolume(Double.parseDouble(textView.getText().toString()));
                     }
 
                     myMead.setStartDate(new GregorianCalendar());
@@ -344,13 +339,13 @@ public class MeadActivity extends AppCompatActivity {
                 case R.id.button_ok:
 
                     double myTest = 1.0;
-                    EditText editText;
+                    TextView textView;
 
                     //Set Data from Dialog
 
-                    editText = (EditText)findViewById(R.id.sg);
-                    if (!editText.getText().toString().isEmpty()) {
-                        myTest = Double.parseDouble(editText.getText().toString());
+                    textView = (TextView) findViewById(R.id.sg);
+                    if (!textView.getText().toString().isEmpty()) {
+                        myTest = Double.parseDouble(textView.getText().toString());
                         SpecGravity myTestSpec = new SpecGravity(myTest);
 
                         //Add to database and get database ID

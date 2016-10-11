@@ -1,116 +1,483 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ffdd55"
-    tools:context="com.inspiredpanama.inspiredmead.MeadActivity">
+    android:background="@color/mead_yellow"
+    tools:context="com.inspirespanama.inspiredmead.MeadActivity">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#5577ff"
-        android:elevation="4dp"
+        android:background="@color/mead_blue"
+        android:elevation="4sp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
     <RelativeLayout
         android:id="@+id/md_list"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/my_toolbar"
-        />
+        android:layout_below="@id/my_toolbar" />
 
-    <EditText
+    <TextView
+        android:id="@+id/md_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:ems="10"
-        android:id="@+id/md_name"
+        android:layout_below="@+id/md_list"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8sp"
+        android:layout_marginLeft="8sp"
+        android:layout_marginRight="8sp"
+        android:layout_marginTop="8sp"
+        android:background="@android:color/transparent"
+        android:ems="14"
         android:hint="@string/meadName"
         android:inputType="text"
-        android:layout_below="@+id/md_list"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"/>
+        android:text="Mead Name"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="@color/mead_blue" />
 
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/md_grav_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/md_name"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6sp"
+        android:layout_marginTop="6sp"
+        android:orientation="horizontal">
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
             android:focusableInTouchMode="false"
+            android:inputType="text"
             android:text="OG: "
-            android:textSize="14dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginLeft="4dp" />
-        <EditText
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/md_OG"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="0sp"
+            android:layout_marginRight="8sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:inputType="numberDecimal"
             android:text="1.000"
-            android:textSize="14dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginLeft="-8dp"
-            android:id="@+id/md_OG" />
-        <EditText
+            android:textColor="@color/mead_blue"
+            android:textSize="14sp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="8sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
             android:focusableInTouchMode="false"
+            android:inputType="text"
             android:text="Cur SG: "
-            android:textSize="14dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginLeft="4dp" />
-        <EditText
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/md_SG"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="0sp"
+            android:layout_marginRight="8sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:inputType="numberDecimal"
             android:text="1.000"
-            android:textSize="14dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginLeft="-8dp"
-            android:id="@+id/md_SG" />
-        <EditText
+            android:textColor="@color/mead_blue"
+            android:textSize="14sp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="8sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
             android:focusableInTouchMode="false"
+            android:inputType="text"
             android:text="Alcohol: "
-            android:textSize="14dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginLeft="4dp"/>
-        <EditText
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/md_alcohol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="0sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
             android:inputType="text"
             android:text="12"
-            android:textSize="14dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="-8dp"
-            android:layout_marginLeft="-8dp"
-            android:id="@+id/md_alcohol" />
-        <EditText
+            android:textSize="14sp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="0sp"
+            android:layout_marginRight="2sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
             android:focusableInTouchMode="false"
+            android:inputType="text"
             android:text="% ABV"
-            android:textSize="14dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="4dp"/>
+            android:textSize="14sp" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/md_start_date_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/md_grav_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="2sp"
+        android:layout_marginTop="2sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="Start Date: "
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/md_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="0sp"
+            android:layout_marginRight="3sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:inputType="text"
+            android:text="2016.01.01"
+            android:textColor="@color/mead_blue"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/md_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="3sp"
+            android:layout_marginRight="2sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:inputType="text"
+            android:text="00:00:00 EST"
+            android:textColor="@color/mead_blue"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/md_test_date_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/md_start_date_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6sp"
+        android:layout_marginTop="2sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="1sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="Last Test: "
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/md_test_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="4sp"
+            android:layout_marginRight="2sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:inputType="text"
+            android:text="NO CURRENT TEST"
+            android:textColor="@color/mead_blue"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/md_volume_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/md_test_date_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6sp"
+        android:layout_marginTop="6sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="Capacity: "
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/md_capacity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="0sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:inputType="numberDecimal"
+            android:text="200.0"
+            android:textColor="@color/mead_blue"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="10sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="litres"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="Volume: "
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/md_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="0sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:inputType="numberDecimal"
+            android:text="200.0"
+            android:textColor="@color/mead_blue"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="2sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="litres"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/md_est_bottle_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/md_volume_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="2sp"
+        android:layout_marginTop="6sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="Est. Bottles: "
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/md_est_bottles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="0sp"
+            android:layout_marginRight="2sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="number"
+            android:text="140"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/md_cur_bottle_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/md_est_bottle_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="2sp"
+        android:layout_marginTop="2sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="Current Bottles: "
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/md_cur_bottles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="0sp"
+            android:layout_marginRight="2sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="number"
+            android:text="0"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/md_honey_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/md_cur_bottle_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10sp"
+        android:layout_marginTop="10sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="2sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="Honey: "
+            android:textSize="14sp" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="2sp"
+            android:layout_marginTop="2sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/md_addition_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/md_honey_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10sp"
+        android:layout_marginTop="10sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="2sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="Additions: "
+            android:textSize="14sp" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="2sp"
+            android:layout_marginTop="2sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/md_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16sp"
+        android:background="@color/mead_blue"
+        android:text="Submit" />
+
 
 </RelativeLayout>

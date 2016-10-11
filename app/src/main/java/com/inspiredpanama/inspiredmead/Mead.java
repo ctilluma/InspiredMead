@@ -1,9 +1,7 @@
 package com.inspiredpanama.inspiredmead;
 
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.PriorityQueue;
 
 /**
  * Created by ctilluma on 10/8/16.
@@ -21,6 +19,7 @@ public class Mead {
     private double volume; // Current volume used in tank
     private double alcohol; //Current ABV
     private List<Honey> honey; //com.inspiredpanama.inspiredmead.Honey in Batch
+    private List<Additive> additive; //com.inspiredpanama.inspiredmead.Additive in Batch
     private String name; //com.inspiredpanama.inspiredmead.Mead Name
     private long id; //database ID
 
@@ -134,6 +133,14 @@ public class Mead {
 
     public void setHoney(List<Honey> honey) {
         this.honey = honey;
+    }
+
+    public List<Additive> getAdditive() {
+        return additive;
+    }
+
+    public void setAdditive(List<Additive> additive) {
+        this.additive = additive;
     }
 
     public String getName() { return name; }

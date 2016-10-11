@@ -4,45 +4,47 @@ package com.inspiredpanama.inspiredmead;
  * Created by ctilluma on 10/8/16.
  */
 
-public class Honey {
+public class Additive {
     //Variables
     private long id; //id record
-    private long honeyID;
+    private long additiveID;
     private double brix; // Sugar content of this com.inspiredpanama.inspiredmead.Honey
     private String name; // Name of honey
     private String flavour; // Flavor of com.inspiredpanama.inspiredmead.Honey
-    private double volume; //Volume of com.inspiredpanama.inspiredmead.Honey
+    private double amount; //Volume of com.inspiredpanama.inspiredmead.Honey
     private boolean isMetric;
+    private boolean isWeight;
 
     //Constructors
-    public Honey() {
+    public Additive() {
         this(new String());
     }
 
-    public Honey(String name) {
+    public Additive(String name) {
         this(name, new String());
     }
 
-    public Honey(String name, String flavour) {
+    public Additive(String name, String flavour) {
         this(81.5, name, flavour);   // Use rough Brix value
     }
 
-    public Honey(double brix, String name, String flavour) {
-        this(-1, 0, brix, name, flavour, 0.00, true); //send -1 for id since no database id known
+    public Additive(double brix, String name, String flavour) {
+        this(-1, 0, brix, name, flavour, 0.00, true, false); //send -1 for id since no database id known
     }
 
-    public Honey(long id, double brix, String name, String flavour) {
-        this(id, 0, brix, name, flavour, 0.00, true);
+    public Additive(long id, double brix, String name, String flavour) {
+        this(id, 0, brix, name, flavour, 0.00, true, false);
     }
 
-    public Honey(long id, long honeyID, double brix, String name, String flavour, double volume, boolean isMetric) {
+    public Additive(long id, long additiveID, double brix, String name, String flavour, double amount, boolean isMetric, boolean isWeight) {
         this.id = id;
-        this.honeyID = honeyID;
+        this.additiveID = additiveID;
         this.brix = brix;
         this.name = name;
         this.flavour = flavour;
-        this.volume = volume;
+        this.amount = amount;
         this.isMetric = isMetric;
+        this.isWeight = isWeight;
     }
 
     //Getter and Setter Methods
@@ -54,12 +56,12 @@ public class Honey {
         this.id = id;
     }
 
-    public long getHoneyID() {
-        return honeyID;
+    public long getAdditiveID() {
+        return additiveID;
     }
 
-    public void setHoneyID(long id) {
-        this.honeyID = honeyID;
+    public void setAdditiveID(long id) {
+        this.additiveID = additiveID;
     }
 
     public double getBrix() {
@@ -86,12 +88,12 @@ public class Honey {
         this.flavour = flavour;
     }
 
-    public double getVolume() {
-        return volume;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setVolume(double volume) {
-        this.volume = volume;
+    public void setAmount(double volume) {
+        this.amount = volume;
     }
 
     public boolean getMetric() {
@@ -102,8 +104,16 @@ public class Honey {
         this.isMetric = isMetric;
     }
 
+    public boolean getIsWeight() {
+        return isWeight;
+    }
+
+    public void setIsWeight(boolean isWeight) {
+        this.isWeight = isWeight;
+    }
+
     public double getSG() {
-        return (( brix / ( 258.6 - (( brix / 258.2 ) * 227.1 ))) + 1);
+        return ((brix / (258.6 - ((brix / 258.2) * 227.1))) + 1);
     }
 
 }

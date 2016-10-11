@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 // Private class for each test
 public class SpecGravity {
     //Variables
-    private long id; //id record
+    private long id, meadID; //id records
     private GregorianCalendar testDate; // Date of this test
     private double testGravity; // Specific Gravity of this test
 
@@ -19,11 +19,12 @@ public class SpecGravity {
     }
 
     public SpecGravity(double testGravity) {  //Constructor w/ test value, supply current time
-        this(-1, new GregorianCalendar(), testGravity); //Set id as negative because it doesn't have a database number
+        this(-1, -1, new GregorianCalendar(), testGravity); //Set id as negative because it doesn't have a database number
     }
 
-    public SpecGravity(long id, GregorianCalendar testDate, double testGravity) {   //Constructor w/ all info known
+    public SpecGravity(long id, long meadID, GregorianCalendar testDate, double testGravity) {   //Constructor w/ all info known
         this.id = id;
+        this.meadID = meadID;
         this.testDate = testDate;
         this.testGravity = testGravity;
     }
@@ -35,6 +36,14 @@ public class SpecGravity {
 
     public void setID(long id) {
         this.id = id;
+    }
+
+    public long getMeadID() {
+        return meadID;
+    }
+
+    public void setMeadID(long meadID) {
+        this.meadID = meadID;
     }
 
     public GregorianCalendar getTestDate() {

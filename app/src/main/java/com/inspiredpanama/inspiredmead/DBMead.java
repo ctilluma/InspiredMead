@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Debug;
-import android.util.Log;
-import android.widget.GridLayout;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -22,29 +19,45 @@ import java.util.List;
 public class DBMead extends SQLiteOpenHelper {
     //Statics
     public static final String DATABASE_NAME = "MeadDB.db";
-    private static final int DATABASE_VERSION      = 1;
-
     //Database Tests Table
     public static final String TESTS_TABLE_NAME = "tests";
     public static final String TESTS_COLUMN_ID = "_id";
     public static final String TESTS_COLUMN_SG = "sg";
     public static final String TESTS_COLUMN_DATE = "date";
     public static final String TESTS_COLUMN_MEADID = "meadID";
-
+    //Database Sample Table
+    public static final String SAMPLE_TABLE_NAME = "sample";
+    public static final String SAMPLE_COLUMN_ID = "_id";
+    public static final String SAMPLE_COLUMN_TASTE = "taste";
+    public static final String SAMPLE_COLUMN_DATE = "date";
+    public static final String SAMPLE_COLUMN_MEADID = "meadID";
+    //Database com.inspiredpanama.inspiredmead.Additives Table
+    public static final String ADDITIVE_TABLE_NAME = "additive";
+    public static final String ADDITIVE_COLUMN_ID = "_id";
+    public static final String ADDITIVE_COLUMN_BRIX = "brix";
+    public static final String ADDITIVE_COLUMN_NAME = "name";
+    public static final String ADDITIVE_COLUMN_FLAVOUR = "flavor";
+    //Database com.inspiredpanama.inspiredmead.AddAdditions Additions
+    public static final String ADDITIVE_ADD_TABLE_NAME = "addAdditions";
+    public static final String ADDITIVE_ADD_COLUMN_ID = "_id";
+    public static final String ADDITIVE_ADD_COLUMN_ADDITIVEID = "addID";
+    public static final String ADDITIVE_ADD_COLUMN_MEADID = "meadID";
+    public static final String ADDITIVE_ADD_COLUMN_AMOUNT = "amount";
+    public static final String ADDITIVE_ADD_COLUMN_ISMETRIC = "isMetric";
+    public static final String ADDITIVE_ADD_COLUMN_ISWEIGHT = "isWeight";
     //Database com.inspiredpanama.inspiredmead.Honey Table
     public static final String HONEY_TABLE_NAME = "honey";
     public static final String HONEY_COLUMN_ID = "_id";
     public static final String HONEY_COLUMN_BRIX = "brix";
     public static final String HONEY_COLUMN_NAME = "name";
     public static final String HONEY_COLUMN_FLAVOUR = "flavor";
-
     //Database com.inspiredpanama.inspiredmead.Honey Additions
     public static final String HONEY_ADD_TABLE_NAME = "honeyAdditions";
     public static final String HONEY_ADD_COLUMN_ID = "_id";
     public static final String HONEY_ADD_COLUMN_HONEYID = "honeyID";
     public static final String HONEY_ADD_COLUMN_MEADID = "meadID";
     public static final String HONEY_ADD_COLUMN_VOLUME = "volume";
-
+    public static final String HONEY_ADD_COLUMN_ISMETRIC = "isMetric";
     //Database com.inspiredpanama.inspiredmead.Mead Table
     public static final String MEAD_TABLE_NAME = "mead";
     public static final String MEAD_COLUMN_ID = "_id";
@@ -54,25 +67,33 @@ public class DBMead extends SQLiteOpenHelper {
     public static final String MEAD_COLUMN_VOLUME = "volume";
     public static final String MEAD_COLUMN_ALCOHOL = "abv";
     public static final String MEAD_COLUMN_START = "brewDate";
-
     //Database Inventory
     public static final String INVENTORY_TABLE_NAME = "inventory";
     public static final String INVENTORY_COLUMN_ID = "_id";
     public static final String INVENTORY_COLUMN_MEADID = "meadID";
     public static final String INVENTORY_COLUMN_VOLUME = "volume";
     public static final String INVENTORY_COLUMN_QUANTITY = "quantity";
-
+    private static final int DATABASE_VERSION = 2;
     //Database Upgrade STATICS
-    private static final String DATABASE_ALTER_TESTS_1 = "ALTER TABLE "
-            + TESTS_TABLE_NAME + " ADD COLUMN " + "" + " string;";
-    private static final String DATABASE_ALTER_HONEY_1 = "ALTER TABLE "
-            + HONEY_TABLE_NAME + " ADD COLUMN " + "" + " string;";
     private static final String DATABASE_ALTER_HONEY_ADD_1 = "ALTER TABLE "
-            + HONEY_ADD_TABLE_NAME + " ADD COLUMN " + "" + " string;";
-    private static final String DATABASE_ALTER_MEAD_1 = "ALTER TABLE "
-            + MEAD_TABLE_NAME + " ADD COLUMN " + "" + " string;";
-    private static final String DATABASE_ALTER_INVENTORY_1 = "ALTER TABLE "
-            + INVENTORY_TABLE_NAME + " ADD COLUMN " + "" + " string;";
+            + HONEY_ADD_TABLE_NAME + " ADD COLUMN " + "" + " " + HONEY_ADD_COLUMN_ISMETRIC + ";";
+    private static final String DATABASE_ADD_ADDITIVE_1 = "CREATE TABLE " + ADDITIVE_TABLE_NAME + " (" +
+            ADDITIVE_COLUMN_ID + " INTEGER PRIMARY KEY, " +
+            ADDITIVE_COLUMN_BRIX + " REAL, " +
+            ADDITIVE_COLUMN_NAME + " TEXT, " +
+            ADDITIVE_COLUMN_FLAVOUR + " TEXT)";
+    private static final String DATABASE_ADD_ADDITIVE_ADD_1 = "CREATE TABLE " + ADDITIVE_ADD_TABLE_NAME + " (" +
+            ADDITIVE_ADD_COLUMN_ID + " INTEGER PRIMARY KEY, " +
+            ADDITIVE_ADD_COLUMN_ADDITIVEID + " INTEGER, " +
+            ADDITIVE_ADD_COLUMN_MEADID + " INTEGER, " +
+            ADDITIVE_ADD_COLUMN_AMOUNT + " REAL, " +
+            ADDITIVE_ADD_COLUMN_ISMETRIC + " INTEGER, " +
+            ADDITIVE_ADD_COLUMN_ISWEIGHT + " INTEGER)";
+    private static final String DATABASE_ADD_SAMPLE_1 = "CREATE TABLE " + SAMPLE_TABLE_NAME + " (" +
+            SAMPLE_COLUMN_ID + " INTEGER PRIMARY KEY, " +
+            SAMPLE_COLUMN_TASTE + " BLOB, " +
+            SAMPLE_COLUMN_DATE + " INT, " +
+            SAMPLE_COLUMN_MEADID + " INT)";
 
     //Variables 
 
@@ -93,6 +114,13 @@ public class DBMead extends SQLiteOpenHelper {
                 TESTS_COLUMN_DATE + " INT, " +
                 TESTS_COLUMN_MEADID + " INT)" );
 
+        //SAMPLE TABLE
+        db.execSQL("CREATE TABLE " + SAMPLE_TABLE_NAME + " (" +
+                SAMPLE_COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                SAMPLE_COLUMN_TASTE + " BLOB, " +
+                SAMPLE_COLUMN_DATE + " INT, " +
+                SAMPLE_COLUMN_MEADID + " INT)");
+
         //HONEY TABLE
         db.execSQL( "CREATE TABLE " + HONEY_TABLE_NAME + " (" +
                 HONEY_COLUMN_ID + " INTEGER PRIMARY KEY, " +
@@ -105,7 +133,24 @@ public class DBMead extends SQLiteOpenHelper {
                 HONEY_ADD_COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 HONEY_ADD_COLUMN_HONEYID + " INTEGER, " +
                 HONEY_ADD_COLUMN_MEADID + " INTEGER, " +
+                HONEY_ADD_COLUMN_ISMETRIC + " INTEGER, " +
                 HONEY_ADD_COLUMN_VOLUME + " REAL)" );
+
+        //ADDITIVE TABLE
+        db.execSQL("CREATE TABLE " + ADDITIVE_TABLE_NAME + " (" +
+                ADDITIVE_COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                ADDITIVE_COLUMN_BRIX + " REAL, " +
+                ADDITIVE_COLUMN_NAME + " TEXT, " +
+                ADDITIVE_COLUMN_FLAVOUR + " TEXT)");
+
+        //ADDITIVE ADD TABLE
+        db.execSQL("CREATE TABLE " + ADDITIVE_ADD_TABLE_NAME + " (" +
+                ADDITIVE_ADD_COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                ADDITIVE_ADD_COLUMN_ADDITIVEID + " INTEGER, " +
+                ADDITIVE_ADD_COLUMN_MEADID + " INTEGER, " +
+                ADDITIVE_ADD_COLUMN_AMOUNT + " REAL, " +
+                ADDITIVE_ADD_COLUMN_ISMETRIC + " INTEGER, " +
+                ADDITIVE_ADD_COLUMN_ISWEIGHT + " INTEGER)");
 
         //MEAD TABLE
         db.execSQL( "CREATE TABLE " + MEAD_TABLE_NAME + " (" +
@@ -130,11 +175,10 @@ public class DBMead extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Drop Tables
         if (oldVersion < 2) { //Run these table updates when upgrading to 2
-            db.execSQL(DATABASE_ALTER_TESTS_1);
-            db.execSQL(DATABASE_ALTER_HONEY_1);
             db.execSQL(DATABASE_ALTER_HONEY_ADD_1);
-            db.execSQL(DATABASE_ALTER_MEAD_1);
-            db.execSQL(DATABASE_ALTER_INVENTORY_1);
+            db.execSQL(DATABASE_ADD_ADDITIVE_1);
+            db.execSQL(DATABASE_ADD_ADDITIVE_ADD_1);
+            db.execSQL(DATABASE_ADD_SAMPLE_1);
         }
     }
 
@@ -150,6 +194,15 @@ public class DBMead extends SQLiteOpenHelper {
         return db.insert(TESTS_TABLE_NAME, null, contentValues);
     }
 
+    public long insertSample(String taste, long date, long meadID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SAMPLE_COLUMN_TASTE, taste);
+        contentValues.put(SAMPLE_COLUMN_DATE, date);
+        contentValues.put(SAMPLE_COLUMN_MEADID, meadID);
+        return db.insert(SAMPLE_TABLE_NAME, null, contentValues);
+    }
+
     public long insertHoney  (double brix, String name, String flavour)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -160,14 +213,35 @@ public class DBMead extends SQLiteOpenHelper {
         return db.insert(HONEY_TABLE_NAME, null, contentValues);
     }
 
-    public long insertHoneyAddition  (long honeyID, long meadID, double volume)
+    public long insertHoneyAddition(long honeyID, long meadID, double volume, boolean isMetric)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(HONEY_ADD_COLUMN_HONEYID, honeyID);
         contentValues.put(HONEY_ADD_COLUMN_MEADID, meadID);
         contentValues.put(HONEY_ADD_COLUMN_VOLUME, volume);
+        contentValues.put(HONEY_ADD_COLUMN_ISMETRIC, isMetric);
         return db.insert(HONEY_ADD_TABLE_NAME, null, contentValues);
+    }
+
+    public long insertAdditive(double brix, String name, String flavour) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ADDITIVE_COLUMN_BRIX, brix);
+        contentValues.put(ADDITIVE_COLUMN_NAME, name);
+        contentValues.put(ADDITIVE_COLUMN_FLAVOUR, flavour);
+        return db.insert(ADDITIVE_TABLE_NAME, null, contentValues);
+    }
+
+    public long insertAdditiveAdd(long honeyID, long meadID, double amount, boolean isMetric, boolean isWeight) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ADDITIVE_ADD_COLUMN_ADDITIVEID, honeyID);
+        contentValues.put(ADDITIVE_ADD_COLUMN_MEADID, meadID);
+        contentValues.put(ADDITIVE_ADD_COLUMN_AMOUNT, amount);
+        contentValues.put(ADDITIVE_ADD_COLUMN_ISMETRIC, isMetric);
+        contentValues.put(ADDITIVE_ADD_COLUMN_ISWEIGHT, isWeight);
+        return db.insert(ADDITIVE_ADD_TABLE_NAME, null, contentValues);
     }
 
     public long insertMead  (String name, double og, double capacity, double volume, double alcohol, long brewDate)
@@ -188,6 +262,7 @@ public class DBMead extends SQLiteOpenHelper {
         SpecGravity myTest;
         long tempID, meadID;
         Honey myHoney;
+        Additive myAdditive;
 
         //Insert Record to get MeadID for other tables and setID
         meadID = insertMead(myMead.getName(), myMead.getOG(), myMead.getCapacity(), myMead.getVolume(), myMead.getAlcohol(), myMead.getStartDate().getTimeInMillis());
@@ -206,7 +281,16 @@ public class DBMead extends SQLiteOpenHelper {
             for (int i=0;i<myMead.getHoney().size();i++) {
                 // Set local for easier reading
                 myHoney = myMead.getHoney().get(i);
-                tempID = insertHoneyAddition(myHoney.getHoneyID(),meadID,myHoney.getVolume());
+                tempID = insertHoneyAddition(myHoney.getHoneyID(), meadID, myHoney.getVolume(), myHoney.getMetric());
+            }
+        }
+
+        //Iterate Additive Additions and add to Database
+        if (myMead.getAdditive() != null) {
+            for (int i = 0; i < myMead.getAdditive().size(); i++) {
+                // Set local for easier reading
+                myAdditive = myMead.getAdditive().get(i);
+                tempID = insertAdditiveAdd(myAdditive.getAdditiveID(), meadID, myAdditive.getAmount(), myAdditive.getMetric(), myAdditive.getIsWeight());
             }
         }
 
@@ -231,6 +315,12 @@ public class DBMead extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor getSampleData(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + SAMPLE_TABLE_NAME + " WHERE " + SAMPLE_COLUMN_ID + " = " + id + "", null);
+        return res;
+    }
+
     public Cursor getHoneyData(long id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "SELECT * FROM " + HONEY_TABLE_NAME + " WHERE " + HONEY_COLUMN_ID + " = " + id + "", null );
@@ -240,6 +330,18 @@ public class DBMead extends SQLiteOpenHelper {
     public Cursor getHoneyAddData(long id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "SELECT * FROM " + HONEY_ADD_TABLE_NAME + " WHERE " + HONEY_ADD_COLUMN_ID + " = " + id + "", null );
+        return res;
+    }
+
+    public Cursor getAdditiveData(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + ADDITIVE_TABLE_NAME + " WHERE " + ADDITIVE_COLUMN_ID + " = " + id + "", null);
+        return res;
+    }
+
+    public Cursor getAdditiveAddData(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + ADDITIVE_ADD_TABLE_NAME + " WHERE " + ADDITIVE_ADD_COLUMN_ID + " = " + id + "", null);
         return res;
     }
 
@@ -276,6 +378,26 @@ public class DBMead extends SQLiteOpenHelper {
         } else return null;
     }
 
+    public Additive getAdditiveRecord(Cursor current) {
+        if (current.moveToFirst()) {
+            if ((current.getString(current.getColumnIndex(ADDITIVE_COLUMN_ID)) != null) && (!current.getString(current.getColumnIndex(ADDITIVE_COLUMN_ID)).isEmpty())) {
+                long id = current.getLong(current.getColumnIndex(ADDITIVE_COLUMN_ID));
+            } else {
+                long id = current.getLong(current.getColumnIndex(ADDITIVE_TABLE_NAME + "." + ADDITIVE_COLUMN_ID));
+            }
+            long id = current.getLong(current.getColumnIndex(ADDITIVE_COLUMN_ID));
+            double brix = current.getDouble(current.getColumnIndex(ADDITIVE_COLUMN_BRIX));
+            String name = current.getString(current.getColumnIndex(ADDITIVE_COLUMN_NAME));
+            String flavour = current.getString(current.getColumnIndex(ADDITIVE_COLUMN_FLAVOUR));
+
+            Additive newAdditive = new Additive(id, brix, name, flavour);
+            newAdditive.setAdditiveID(id);
+
+            // Return Honey Object
+            return newAdditive;
+        } else return null;
+    }
+
     public List<Honey> getHoneyAdditionsFromMead(long meadID) {
         List<Honey> honeyList = new ArrayList<Honey>();
 
@@ -284,8 +406,10 @@ public class DBMead extends SQLiteOpenHelper {
                 HONEY_TABLE_NAME + "." + HONEY_COLUMN_ID + ", " +
                 HONEY_ADD_TABLE_NAME + "." + HONEY_ADD_COLUMN_ID + ", " +
                 HONEY_ADD_COLUMN_VOLUME + ", " +
+                HONEY_ADD_COLUMN_ISMETRIC + ", " +
                 HONEY_COLUMN_BRIX + ", " +
                 HONEY_COLUMN_NAME + ", " +
+                HONEY_ADD_COLUMN_ISMETRIC + ", " +
                 HONEY_COLUMN_FLAVOUR +
                 " FROM " + HONEY_ADD_TABLE_NAME + " INNER JOIN " +
                 HONEY_TABLE_NAME +
@@ -305,6 +429,12 @@ public class DBMead extends SQLiteOpenHelper {
                     newHoney.setVolume(cursor.getDouble(cursor.getColumnIndex(HONEY_ADD_COLUMN_VOLUME)));
                     newHoney.setHoneyID(newHoney.getID());
                     newHoney.setID(cursor.getLong(cursor.getColumnIndex((HONEY_ADD_TABLE_NAME + "." + HONEY_ADD_COLUMN_ID))));
+                    if (cursor.getInt(cursor.getColumnIndex(HONEY_ADD_COLUMN_ISMETRIC)) == 0) {
+                        newHoney.setMetric(false);
+                    } else {
+                        newHoney.setMetric(true);
+                    }
+
                     honeyList.add(newHoney);
                 } while (cursor.moveToNext());
             }
@@ -315,11 +445,86 @@ public class DBMead extends SQLiteOpenHelper {
         return honeyList;
     }
 
+    public List<Additive> getAdditiveAdditionsFromMead(long meadID) {
+        List<Additive> addList = new ArrayList<Additive>();
+
+        //Select AdditiveAdditions
+        String selectQuery = "SELECT " +
+                ADDITIVE_TABLE_NAME + "." + ADDITIVE_COLUMN_ID + ", " +
+                ADDITIVE_ADD_TABLE_NAME + "." + ADDITIVE_ADD_COLUMN_ID + ", " +
+                ADDITIVE_ADD_COLUMN_AMOUNT + ", " +
+                ADDITIVE_ADD_COLUMN_ISMETRIC + ", " +
+                ADDITIVE_ADD_COLUMN_ISWEIGHT + ", " +
+                ADDITIVE_COLUMN_BRIX + ", " +
+                ADDITIVE_COLUMN_NAME + ", " +
+                ADDITIVE_COLUMN_FLAVOUR +
+                " FROM " + ADDITIVE_ADD_TABLE_NAME + " INNER JOIN " +
+                ADDITIVE_TABLE_NAME +
+                " ON " + ADDITIVE_TABLE_NAME + "." + ADDITIVE_COLUMN_ID + " = " +
+                ADDITIVE_ADD_TABLE_NAME + "." + ADDITIVE_ADD_COLUMN_ADDITIVEID +
+                " WHERE " + ADDITIVE_ADD_TABLE_NAME + "." + ADDITIVE_ADD_COLUMN_MEADID +
+                " = " + String.valueOf(meadID);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.getCount() > 0) {
+            // Loop all rows
+            if (cursor.moveToFirst()) {
+                do {
+                    Additive newAdd = getAdditiveRecord(cursor);
+                    newAdd.setAmount(cursor.getDouble(cursor.getColumnIndex(ADDITIVE_ADD_COLUMN_AMOUNT)));
+                    newAdd.setAdditiveID(newAdd.getID());
+                    newAdd.setID(cursor.getLong(cursor.getColumnIndex((ADDITIVE_ADD_TABLE_NAME + "." + ADDITIVE_ADD_COLUMN_ID))));
+                    if (cursor.getInt(cursor.getColumnIndex(ADDITIVE_ADD_COLUMN_ISMETRIC)) == 0) {
+                        newAdd.setMetric(false);
+                    } else {
+                        newAdd.setMetric(true);
+                    }
+                    if (cursor.getInt(cursor.getColumnIndex(ADDITIVE_ADD_COLUMN_ISWEIGHT)) == 0) {
+                        newAdd.setMetric(false);
+                    } else {
+                        newAdd.setMetric(true);
+                    }
+                    addList.add(newAdd);
+                } while (cursor.moveToNext());
+            }
+        }
+
+
+        //Return List
+        return addList;
+    }
+
+    public List<TasteSample> getSampleResultsFromMead(long meadID) {
+        List<TasteSample> testSample = new ArrayList<>();
+
+        //Select Test Quest
+        String selectQuery = "SELECT * FROM " + SAMPLE_TABLE_NAME + " WHERE " + SAMPLE_COLUMN_MEADID + " = " + String.valueOf(meadID);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.getCount() > 0) {
+            // Loop all rows
+            if (cursor.moveToFirst()) {
+                do {
+                    TasteSample newSample = getSampleRecord(cursor);
+                    testSample.add(newSample);
+                } while (cursor.moveToNext());
+            }
+        }
+
+        //Return List
+        return testSample;
+
+    }
+
     public List<SpecGravity> getTestResultsFromMead(long meadID) {
         List<SpecGravity> testList = new ArrayList<>();
 
         //Select Test Quest
-        String selectQuery = "SELECT * FROM " + TESTS_TABLE_NAME +" WHERE " + TESTS_COLUMN_MEADID + " = " + String.valueOf(meadID);
+        String selectQuery = "SELECT * FROM " + TESTS_TABLE_NAME + " WHERE " + TESTS_COLUMN_MEADID + " = " + String.valueOf(meadID);
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -367,14 +572,32 @@ public class DBMead extends SQLiteOpenHelper {
             long id = current.getLong(current.getColumnIndex(TESTS_COLUMN_ID));
             double sg = current.getDouble(current.getColumnIndex(TESTS_COLUMN_SG));
             long date = current.getLong(current.getColumnIndex(TESTS_COLUMN_DATE));
+            long meadID = current.getLong(current.getColumnIndex(TESTS_COLUMN_MEADID));
 
             GregorianCalendar tempCalendar = new GregorianCalendar();
             tempCalendar.setTimeInMillis(date);
 
-            SpecGravity newTest = new SpecGravity(id, tempCalendar, sg);
+            SpecGravity newTest = new SpecGravity(id, meadID, tempCalendar, sg);
 
             //return Test
             return newTest;
+        } else return null;
+    }
+
+    public TasteSample getSampleRecord(Cursor current) {
+        if (current.moveToFirst()) {
+            long id = current.getLong(current.getColumnIndex(SAMPLE_COLUMN_ID));
+            String taste = current.getString(current.getColumnIndex(SAMPLE_COLUMN_TASTE));
+            long date = current.getLong(current.getColumnIndex(SAMPLE_COLUMN_DATE));
+            long meadID = current.getLong(current.getColumnIndex(SAMPLE_COLUMN_MEADID));
+
+            GregorianCalendar tempCalendar = new GregorianCalendar();
+            tempCalendar.setTimeInMillis(date);
+
+            TasteSample newTaste = new TasteSample(id, meadID, tempCalendar, taste);
+
+            //return Test
+            return newTaste;
         } else return null;
     }
 
@@ -483,6 +706,18 @@ public class DBMead extends SQLiteOpenHelper {
         return numRows;
     }
 
+    public int numberOfSampleRows() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, SAMPLE_TABLE_NAME);
+        return numRows;
+    }
+
+    public int numberOfSampleRows(long meadID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, SAMPLE_TABLE_NAME, SAMPLE_COLUMN_MEADID + " = " + String.valueOf(meadID));
+        return numRows;
+    }
+
     public int numberOfHoneyRows(){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, HONEY_TABLE_NAME);
@@ -498,6 +733,24 @@ public class DBMead extends SQLiteOpenHelper {
     public int numberOfHoneyAdditionRows(long meadID){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, HONEY_ADD_TABLE_NAME, HONEY_ADD_COLUMN_MEADID + " = " + String.valueOf(meadID));
+        return numRows;
+    }
+
+    public int numberOfAdditiveRows() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, ADDITIVE_TABLE_NAME);
+        return numRows;
+    }
+
+    public int numberOfAdditiveAdditionRows() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, ADDITIVE_ADD_TABLE_NAME);
+        return numRows;
+    }
+
+    public int numberOfAdditiveAdditionRows(long meadID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, ADDITIVE_ADD_TABLE_NAME, ADDITIVE_ADD_COLUMN_MEADID + " = " + String.valueOf(meadID));
         return numRows;
     }
 
@@ -524,6 +777,15 @@ public class DBMead extends SQLiteOpenHelper {
         return db.update(TESTS_TABLE_NAME, contentValues, TESTS_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
     }
 
+    public int updateSample(int id, String taste, int date, long meadID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SAMPLE_COLUMN_TASTE, taste);
+        contentValues.put(SAMPLE_COLUMN_DATE, date);
+        contentValues.put(SAMPLE_COLUMN_MEADID, meadID);
+        return db.update(SAMPLE_TABLE_NAME, contentValues, SAMPLE_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+    }
+
     public int updateHoney (int id, double brix, String name, String flavour)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -534,14 +796,35 @@ public class DBMead extends SQLiteOpenHelper {
         return db.update(HONEY_TABLE_NAME, contentValues, HONEY_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
     }
 
-    public int updateHoneyAdd (int id, long honeyID, long meadID, double volume)
+    public int updateHoneyAdd(int id, long honeyID, long meadID, double volume, boolean isMetric)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(HONEY_ADD_COLUMN_HONEYID, honeyID);
         contentValues.put(HONEY_ADD_COLUMN_MEADID, meadID);
         contentValues.put(HONEY_ADD_COLUMN_VOLUME, volume);
+        contentValues.put(HONEY_ADD_COLUMN_ISMETRIC, isMetric);
         return db.update(HONEY_ADD_TABLE_NAME, contentValues, HONEY_ADD_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+    }
+
+    public int updateAdditive(int id, double brix, String name, String flavour) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ADDITIVE_COLUMN_BRIX, brix);
+        contentValues.put(ADDITIVE_COLUMN_NAME, name);
+        contentValues.put(ADDITIVE_COLUMN_FLAVOUR, flavour);
+        return db.update(ADDITIVE_TABLE_NAME, contentValues, ADDITIVE_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+    }
+
+    public int updateAdditiveAdd(int id, long honeyID, long meadID, double volume, boolean isMetric, boolean isWeight) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ADDITIVE_ADD_COLUMN_ADDITIVEID, honeyID);
+        contentValues.put(ADDITIVE_ADD_COLUMN_MEADID, meadID);
+        contentValues.put(ADDITIVE_ADD_COLUMN_AMOUNT, volume);
+        contentValues.put(ADDITIVE_ADD_COLUMN_ISMETRIC, isMetric);
+        contentValues.put(ADDITIVE_ADD_COLUMN_ISWEIGHT, isWeight);
+        return db.update(ADDITIVE_ADD_TABLE_NAME, contentValues, ADDITIVE_ADD_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
     }
 
     public int updateMead (int id, String name, double og, double capacity, double volume, double alcohol)
@@ -568,53 +851,77 @@ public class DBMead extends SQLiteOpenHelper {
 
 
     //Delete Records (DELETE)
-    public Integer deleteTest (Integer id)
+    public Integer deleteTest(long id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TESTS_TABLE_NAME,
                 TESTS_COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[]{Long.toString(id)});
     }
 
-    public Integer deleteHoney (Integer id)
+    public Integer deleteSample(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(SAMPLE_TABLE_NAME,
+                SAMPLE_COLUMN_ID + " = ? ",
+                new String[]{Long.toString(id)});
+    }
+
+    public Integer deleteHoney(long id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(HONEY_ADD_TABLE_NAME,
                 HONEY_ADD_COLUMN_HONEYID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[]{Long.toString(id)});
         return db.delete(HONEY_TABLE_NAME,
                 HONEY_COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[]{Long.toString(id)});
     }
 
-    public Integer deleteHoneyAdd (Integer id)
+    public Integer deleteHoneyAdd(long id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(HONEY_ADD_TABLE_NAME,
                 HONEY_ADD_COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[]{Long.toString(id)});
     }
 
-    public Integer deleteMead (double id)
+    public Integer deleteAdditive(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(ADDITIVE_ADD_TABLE_NAME,
+                ADDITIVE_ADD_COLUMN_ADDITIVEID + " = ? ",
+                new String[]{Long.toString(id)});
+        return db.delete(ADDITIVE_TABLE_NAME,
+                ADDITIVE_COLUMN_ID + " = ? ",
+                new String[]{Long.toString(id)});
+    }
+
+    public Integer deleteAdditiveAdd(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(ADDITIVE_ADD_TABLE_NAME,
+                ADDITIVE_ADD_COLUMN_ID + " = ? ",
+                new String[]{Long.toString(id)});
+    }
+
+    public Integer deleteMead(long id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(HONEY_ADD_TABLE_NAME,
                 HONEY_ADD_COLUMN_MEADID + " = ? ",
-                new String[] { Double.toString(id) });
+                new String[]{Long.toString(id)});
         db.delete(INVENTORY_TABLE_NAME,
                 INVENTORY_COLUMN_MEADID + " = ? ",
-                new String[] { Double.toString(id) });
+                new String[]{Long.toString(id)});
         return db.delete(MEAD_TABLE_NAME,
                 MEAD_COLUMN_ID + " = ? ",
-                new String[] { Double.toString(id) });
+                new String[]{Long.toString(id)});
     }
 
-    public Integer deleteInventory (Integer id)
+    public Integer deleteInventory(long id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(INVENTORY_TABLE_NAME,
                 INVENTORY_COLUMN_ID + " = ? ",
-                new String[] { Integer.toString(id) });
+                new String[]{Long.toString(id)});
     }
 
     private GregorianCalendar newCalendarFromMillis(long millis) {

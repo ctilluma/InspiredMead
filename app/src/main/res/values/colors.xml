@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="mead_yellow">#ffdd55</color>
+    <color name="mead_blue">#5577ff</color>
+    <color name="mead_red">#ff55cc</color>
 </resources>

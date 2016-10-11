@@ -4,16 +4,16 @@
 package com.inspiredpanama.inspiredmead;
 
 import android.app.Activity;
-import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class MeadListAdapter extends ArrayAdapter {
@@ -63,6 +63,13 @@ public class MeadListAdapter extends ArrayAdapter {
         name.setText(mead.getName());
         if (mead.getDate() != null) {
             date.setText(String.valueOf(dateFormatter.format(mead.getDate().getTime())));
+        }
+
+        GregorianCalendar checkDate = new GregorianCalendar();
+        //Subtract DAYS_BETWEEN_TESTING from current Date
+        checkDate.add(Calendar.DATE, (MeadDisplay.DAYS_BETWEEN_TESTING * -1));
+        if (checkDate.after(mead.getDate())) {
+            date.setTextColor(ContextCompat.getColor(activity, R.color.mead_red));
         }
 
         alcohol.setText((String.valueOf(mead.getAlcohol())+"% ABV"));
