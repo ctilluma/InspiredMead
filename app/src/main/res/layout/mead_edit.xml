@@ -13,16 +13,17 @@
         android:id="@+id/nameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentTop="true">
+        android:layout_marginTop="10dp">
 
         <EditText
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/meadName"/>
+            android:hint="@string/meadName"
+            android:inputType="textCapWords" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -38,7 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/sGravity"/>
+            android:hint="@string/sGravity"
+            android:inputType="numberDecimal" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -54,7 +56,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/tankCapacity"/>
+            android:hint="@string/tankCapacity"
+            android:inputType="numberDecimal" />
     </android.support.design.widget.TextInputLayout>
 
 
@@ -71,26 +74,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/curVolume"/>
+            android:hint="@string/curVolume"
+            android:inputType="numberDecimal" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:text="@string/ok"
+        android:id="@+id/button_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/volumeLayout"
         android:layout_alignLeft="@+id/volumeLayout"
         android:layout_alignStart="@+id/volumeLayout"
+        android:layout_below="@+id/volumeLayout"
         android:layout_marginTop="31dp"
-        android:id="@+id/button_ok" />
+        android:text="@string/ok" />
 
     <Button
-        android:text="@string/cancel"
+        android:id="@+id/button_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/button_ok"
-        android:layout_alignRight="@+id/volumeLayout"
         android:layout_alignEnd="@+id/volumeLayout"
-        android:id="@+id/button_cancel" />
+        android:layout_alignRight="@+id/volumeLayout"
+        android:text="@string/cancel" />
 
 </RelativeLayout>

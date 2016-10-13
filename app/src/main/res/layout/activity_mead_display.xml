@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mead_yellow"
-    tools:context="com.inspirespanama.inspiredmead.MeadActivity">
+    tools:context="com.inspiredpanama.inspiredmead.MeadDisplay">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -32,9 +32,11 @@
         android:layout_marginRight="8sp"
         android:layout_marginTop="8sp"
         android:background="@android:color/transparent"
+        android:clickable="true"
         android:ems="14"
         android:hint="@string/meadName"
         android:inputType="text"
+        android:onClick="onClickName"
         android:text="Mead Name"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -73,7 +75,9 @@
             android:layout_marginRight="8sp"
             android:layout_marginTop="2sp"
             android:background="@android:color/transparent"
+            android:clickable="true"
             android:inputType="numberDecimal"
+            android:onClick="onClickOG"
             android:text="1.000"
             android:textColor="@color/mead_blue"
             android:textSize="14sp" />
@@ -100,7 +104,9 @@
             android:layout_marginRight="8sp"
             android:layout_marginTop="2sp"
             android:background="@android:color/transparent"
+            android:clickable="true"
             android:inputType="numberDecimal"
+            android:onClick="onClickTest"
             android:text="1.000"
             android:textColor="@color/mead_blue"
             android:textSize="14sp" />
@@ -178,7 +184,10 @@
             android:layout_marginRight="3sp"
             android:layout_marginTop="2sp"
             android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="false"
             android:inputType="text"
+            android:onClick="onClickDate"
             android:text="2016.01.01"
             android:textColor="@color/mead_blue"
             android:textSize="14sp" />
@@ -192,7 +201,10 @@
             android:layout_marginRight="2sp"
             android:layout_marginTop="2sp"
             android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="false"
             android:inputType="text"
+            android:onClick="onClickTime"
             android:text="00:00:00 EST"
             android:textColor="@color/mead_blue"
             android:textSize="14sp" />
@@ -230,7 +242,9 @@
             android:layout_marginRight="2sp"
             android:layout_marginTop="2sp"
             android:background="@android:color/transparent"
+            android:clickable="true"
             android:inputType="text"
+            android:onClick="onClickTest"
             android:text="NO CURRENT TEST"
             android:textColor="@color/mead_blue"
             android:textSize="14sp" />
@@ -268,7 +282,9 @@
             android:layout_marginRight="0sp"
             android:layout_marginTop="2sp"
             android:background="@android:color/transparent"
+            android:clickable="true"
             android:inputType="numberDecimal"
+            android:onClick="onClickCapacity"
             android:text="200.0"
             android:textColor="@color/mead_blue"
             android:textSize="14sp" />
@@ -308,7 +324,9 @@
             android:layout_marginRight="0sp"
             android:layout_marginTop="2sp"
             android:background="@android:color/transparent"
+            android:clickable="true"
             android:inputType="numberDecimal"
+            android:onClick="onClickVolume"
             android:text="200.0"
             android:textColor="@color/mead_blue"
             android:textSize="14sp" />
@@ -328,10 +346,90 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/md_est_bottle_layout"
+        android:id="@+id/md_waste_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/md_volume_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6sp"
+        android:layout_marginTop="6sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="Waste: "
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/md_waste"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="0sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:inputType="numberDecimal"
+            android:onClick="onClickWaste"
+            android:text="0.0"
+            android:textColor="@color/mead_blue"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="10sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="litres"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:inputType="text"
+            android:text="Waste %: "
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/md_waste_per"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:layout_marginLeft="0sp"
+            android:layout_marginRight="0sp"
+            android:layout_marginTop="2sp"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:text="0.0"
+            android:textColor="@color/mead_blue"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/md_est_bottle_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/md_waste_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="2sp"
         android:layout_marginTop="6sp"
@@ -427,6 +525,7 @@
             android:textSize="14sp" />
 
         <ListView
+            android:id="@+id/md_honey_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2sp"
@@ -460,6 +559,7 @@
             android:textSize="14sp" />
 
         <ListView
+            android:id="@+id/md_addition_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2sp"

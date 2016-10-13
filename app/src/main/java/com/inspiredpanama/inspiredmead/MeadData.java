@@ -1,13 +1,6 @@
 package com.inspiredpanama.inspiredmead;
 
-import android.support.annotation.NonNull;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by ctilluma on 10/10/16.
@@ -17,11 +10,13 @@ public class MeadData {
     //Variables
     private String name;
     private long id;
-    private GregorianCalendar date;
+    private GregorianCalendar date;     // Last Test
+    private GregorianCalendar brewDate;  // When was brewed
     private double alcohol, volume;
 
+
     //Constructor
-    public MeadData(String name, long id, GregorianCalendar date, double alcohol, double volume) {
+    public MeadData(String name, long id, GregorianCalendar date, GregorianCalendar brewDate, double alcohol, double volume) {
         this.name = name;
         this.id = id;
         this.date = date;
@@ -37,6 +32,7 @@ public class MeadData {
         } else {
             this.date = myMead.getLastTest().getTestDate();
         }
+        this.brewDate = myMead.getStartDate();
         this.alcohol = myMead.getAlcohol();
         this.volume = myMead.getVolume();
     }
@@ -64,6 +60,14 @@ public class MeadData {
 
     public void setDate(GregorianCalendar date) {
         this.date = date;
+    }
+
+    public GregorianCalendar getBrewDate() {
+        return brewDate;
+    }
+
+    public void setBrewDate(GregorianCalendar brewDate) {
+        this.brewDate = brewDate;
     }
 
     public double getAlcohol() {

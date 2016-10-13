@@ -3,9 +3,10 @@
     <string-array
         name="mead_context_menu">
         <item>Test</item>
-        <item>Filter</item>
+        <item>Filter / Rack</item>
         <item>Bottle</item>
         <item>Add Honey</item>
+        <item>Add Other</item>
         <item>Delete</item>
     </string-array>
 </resources>

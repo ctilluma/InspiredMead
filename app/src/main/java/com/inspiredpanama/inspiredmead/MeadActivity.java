@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,11 +18,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -30,6 +36,16 @@ import java.util.List;
  * status bar and navigation/system bar) with user interaction.
  */
 public class MeadActivity extends AppCompatActivity {
+    //STATICS
+    public static final int SORT_NAME = 0;
+    public static final int SORT_BREW_DATE = 1;
+    public static final int SORT_LAST_TEST = 2;
+    public static final int SORT_ALCOHOL = 3;
+    public static final int SORT_VOLUME = 4;
+    public static final int SORT_TYPE_ASC = 0;
+    public static final int SORT_TYPE_DEC = 1;
+
+
     //Variables
     private ProgressDialog pDialog;
     private List<MeadData> mead;
@@ -53,6 +69,7 @@ public class MeadActivity extends AppCompatActivity {
         pDialog.setMessage("Loading...");
         pDialog.show();
         mead = getAllMeadFromDB();
+        meadSort(SORT_BREW_DATE, SORT_TYPE_ASC);
         hidePDialog();
 
         //Create and populate List
@@ -69,7 +86,7 @@ public class MeadActivity extends AppCompatActivity {
                 //Start new activity and send ID of mead selection.
                 Intent myIntent = new Intent(MeadActivity.this, MeadDisplay.class);
                 myIntent.putExtra("meadID", mead.get(position).getId()); //Optional parameters
-                MeadActivity.this.startActivity(myIntent);
+                startActivityForResult(myIntent, 0);
 
             }
         });
@@ -118,6 +135,15 @@ public class MeadActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final ArrayAdapter<String> arrayAdapterSort = new ArrayAdapter<String>(
+                MeadActivity.this,
+                android.R.layout.select_dialog_item);
+        arrayAdapterSort.add("Name");
+        arrayAdapterSort.add("Brew Date");
+        arrayAdapterSort.add("Alcohol");
+        arrayAdapterSort.add("Test");
+        arrayAdapterSort.add("Volume");
+
         switch (item.getItemId()) {
             case R.id.action_settings:
                 // Perform App Settings
@@ -125,8 +151,64 @@ public class MeadActivity extends AppCompatActivity {
 
             case R.id.action_add:
                 // Add Mead Window
-                NewMeadDialogClass newMeadClass=new NewMeadDialogClass(this);
+                NewMeadDialogClass newMeadClass = new NewMeadDialogClass(this);
                 newMeadClass.show();
+
+                return true;
+
+            case R.id.action_sort: //Descending Sort
+                AlertDialog.Builder sortTypeDes = new AlertDialog.Builder(MeadActivity.this);
+                sortTypeDes.setTitle("Select Sort Method");
+
+                sortTypeDes.setNegativeButton(
+                        "cancel",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                sortTypeDes.setAdapter(
+                        arrayAdapterSort,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String strName = arrayAdapterSort.getItem(which);
+                                Log.i("onClick: Des: ", String.valueOf(which));
+                                meadSort(which, SORT_TYPE_DEC);
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        });
+                sortTypeDes.show();
+
+                return true;
+            case R.id.action_sort_r: //Ascending Sort
+                AlertDialog.Builder sortTypeAsc = new AlertDialog.Builder(MeadActivity.this);
+                sortTypeAsc.setTitle("Select Sort Method");
+
+                sortTypeAsc.setNegativeButton(
+                        "cancel",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                sortTypeAsc.setAdapter(
+                        arrayAdapterSort,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String strName = arrayAdapterSort.getItem(which);
+                                Log.i("onClick: Asc: ", String.valueOf(which));
+                                meadSort(which, SORT_TYPE_ASC);
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        });
+                sortTypeAsc.show();
+                return true;
 
             default:
                 // If we got here, the user's action was not recognized.
@@ -140,7 +222,7 @@ public class MeadActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
-        if (v.getId()==R.id.list) {
+        if (v.getId() == R.id.list) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
 
@@ -148,7 +230,7 @@ public class MeadActivity extends AppCompatActivity {
             // menu.setHeaderTitle(mead.get(info.position).getName());
 
             String[] menuItems = getResources().getStringArray(R.array.mead_context_menu);
-            for (int i = 0; i<menuItems.length; i++) {
+            for (int i = 0; i < menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
             }
         }
@@ -158,18 +240,21 @@ public class MeadActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         // Track which item was selected from list
         // mead.get(info.position).getName()
 
         switch (item.getItemId()) {
             case 0: //Test
-                NewTestDialogClass newTestClass=new NewTestDialogClass(this, info.position);
+                NewTestDialogClass newTestClass = new NewTestDialogClass(this, info.position);
                 newTestClass.show();
                 return true;
 
-            case 1: //Filter
+            case 1: //Filter and Rack
+                NewFilterDialogClass newFilterDialog = new NewFilterDialogClass(this, mead.get(info.position).getId());
+                newFilterDialog.show();
+
                 return true;
 
             case 2: //Bottle
@@ -178,13 +263,16 @@ public class MeadActivity extends AppCompatActivity {
             case 3: //Add Honey
                 return true;
 
-            case 4: //Delete
+            case 4: //Add Other
+                return true;
+
+            case 5: //Delete
                 //Bring up alert dialog to verify before deletion.
-                AlertDialog.Builder alert = new AlertDialog.Builder(
+                AlertDialog.Builder alertDelete = new AlertDialog.Builder(
                         this);
-                alert.setTitle("Alert!!");
-                alert.setMessage("Are you sure to delete entry?");
-                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                alertDelete.setTitle("Alert!!");
+                alertDelete.setMessage("Are you sure to delete entry?");
+                alertDelete.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -200,7 +288,7 @@ public class MeadActivity extends AppCompatActivity {
 
                     }
                 });
-                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                alertDelete.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -208,7 +296,7 @@ public class MeadActivity extends AppCompatActivity {
                     }
                 });
 
-                alert.show();
+                alertDelete.show();
 
                 return true;
 
@@ -217,6 +305,134 @@ public class MeadActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        mAdapter.notifyDataSetChanged();
+
+        String resultData = data.getStringExtra("MEAD");
+
+
+        // fetch the message String
+        Mead tMead = db.getMeadRecordFromID(Long.valueOf(resultData));
+
+        for (int i = 0; i < mead.size(); i++) {
+            if (mead.get(i).getId() == tMead.getId()) {
+                mead.remove(i);
+                mead.add(new MeadData(tMead));
+                meadSort(SORT_BREW_DATE, SORT_TYPE_ASC);
+                mAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+    private void meadSort(int column, int direction) {
+
+        /***************
+         * Sorting function to display listArray in different orders.
+         */
+        switch (column) {
+            case SORT_ALCOHOL:
+                if (direction == SORT_TYPE_ASC) {
+                    Collections.sort(mead, new Comparator<MeadData>() {
+                        @Override
+                        public int compare(MeadData mead1, MeadData mead2) {
+                            return Integer.valueOf((int) (mead1.getAlcohol() * 100)).compareTo((int) (mead2.getAlcohol() * 100));
+                        }
+                    });
+                } else {
+                    Collections.sort(mead, new Comparator<MeadData>() {
+                        @Override
+                        public int compare(MeadData mead1, MeadData mead2) {
+                            return Integer.valueOf((int) (mead2.getAlcohol() * 100)).compareTo((int) (mead1.getAlcohol() * 100));
+                        }
+                    });
+                }
+                break;
+            case SORT_BREW_DATE:
+                if (direction == SORT_TYPE_ASC) {
+                    Collections.sort(mead, new Comparator<MeadData>() {
+                        @Override
+                        public int compare(MeadData mead1, MeadData mead2) {
+                            return Integer.valueOf((int) mead1.getBrewDate().getTimeInMillis()).compareTo((int) mead2.getBrewDate().getTimeInMillis());
+                        }
+                    });
+                } else {
+                    Collections.sort(mead, new Comparator<MeadData>() {
+                        @Override
+                        public int compare(MeadData mead1, MeadData mead2) {
+                            return Integer.valueOf((int) mead2.getBrewDate().getTimeInMillis()).compareTo((int) mead1.getBrewDate().getTimeInMillis());
+                        }
+                    });
+                }
+                break;
+
+            case SORT_LAST_TEST:
+                if (direction == SORT_TYPE_ASC) {
+                    Collections.sort(mead, new Comparator<MeadData>() {
+                        @Override
+                        public int compare(MeadData mead1, MeadData mead2) {
+                            return Integer.valueOf((int) mead1.getDate().getTimeInMillis()).compareTo((int) mead2.getDate().getTimeInMillis());
+                        }
+                    });
+                } else {
+                    Collections.sort(mead, new Comparator<MeadData>() {
+                        @Override
+                        public int compare(MeadData mead1, MeadData mead2) {
+                            return Integer.valueOf((int) mead2.getDate().getTimeInMillis()).compareTo((int) mead1.getDate().getTimeInMillis());
+                        }
+                    });
+                }
+                break;
+            case SORT_NAME:
+                if (direction == SORT_TYPE_ASC) {
+                    Collections.sort(mead, new Comparator<MeadData>() {
+                        @Override
+                        public int compare(MeadData mead1, MeadData mead2) {
+                            return mead1.getName().compareToIgnoreCase(mead2.getName());
+                        }
+                    });
+                } else {
+                    Collections.sort(mead, new Comparator<MeadData>() {
+                        @Override
+                        public int compare(MeadData mead1, MeadData mead2) {
+                            return mead2.getName().compareToIgnoreCase(mead1.getName());
+                        }
+                    });
+                }
+                break;
+            case SORT_VOLUME:
+                if (direction == SORT_TYPE_ASC) {
+                    Collections.sort(mead, new Comparator<MeadData>() {
+                        @Override
+                        public int compare(MeadData mead1, MeadData mead2) {
+                            return Integer.valueOf((int) (mead1.getVolume() * 100)).compareTo((int) (mead2.getVolume() * 100)); //*100 to increase decimal precision
+                        }
+                    });
+                } else {
+                    Collections.sort(mead, new Comparator<MeadData>() {
+                        @Override
+                        public int compare(MeadData mead1, MeadData mead2) {
+                            return Integer.valueOf((int) (mead2.getVolume() * 100)).compareTo((int) (mead1.getVolume() * 100));
+                        }
+                    });
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        Collections.sort(mead, new Comparator<MeadData>() {
+            @Override
+            public int compare(MeadData mead1, MeadData mead2) {
+                return Integer.valueOf((int) mead2.getBrewDate().getTimeInMillis()).compareTo((int) mead2.getBrewDate().getTimeInMillis());
+            }
+        });
     }
 
     public class NewMeadDialogClass extends Dialog implements
@@ -308,6 +524,72 @@ public class MeadActivity extends AppCompatActivity {
         }
     }
 
+    public class NewFilterDialogClass extends Dialog implements
+            android.view.View.OnClickListener {
+
+        public Activity c;
+        public Dialog d;
+        Spinner mSpinner;
+        private long meadID;
+
+        public NewFilterDialogClass(Activity a, long meadID) {
+            super(a);
+
+            this.c = a;
+            this.meadID = meadID;
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.mead_filter);
+            Button button_ok = (Button) findViewById(R.id.fd_button_ok);
+            Button button_cancel = (Button) findViewById(R.id.fd_button_cancel);
+            button_ok.setOnClickListener(this);
+            button_cancel.setOnClickListener(this);
+            mSpinner = (Spinner) findViewById(R.id.fd_filter_spinner);
+            ArrayAdapter<CharSequence> mAdapter = ArrayAdapter.createFromResource(MeadActivity.this,
+                    R.array.mead_filter_menu, android.R.layout.simple_spinner_item);
+            mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinner.setAdapter(mAdapter);
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.fd_button_ok:
+                    EditText waste = (EditText) findViewById(R.id.fd_waste);
+                    Double wasteAmt = Double.parseDouble(waste.getText().toString());
+
+                    //Get Mead Record
+                    Mead mMead = db.getMeadRecordFromID(meadID);
+                    mMead.addWaste(wasteAmt);
+
+                    Filter mFilter = new Filter();
+                    mFilter.setFilterSize(mSpinner.getSelectedItemPosition());
+                    mFilter.setFilterDate(new GregorianCalendar());
+                    mFilter.setMeadID(meadID);
+
+                    Log.i("FD(mID,waste,filter): ", String.valueOf(meadID) + " " + String.valueOf(wasteAmt) + " " + String.valueOf(mFilter.getFilterSize()));
+
+                    db.updateMead(mMead);
+                    db.insertFilter(mFilter);
+
+                    break;
+
+                case R.id.fd_button_cancel:
+                    dismiss();
+                    break;
+
+                default:
+                    break;
+            }
+            dismiss();
+        }
+    }
+
     public class NewTestDialogClass extends Dialog implements
             android.view.View.OnClickListener {
 
@@ -349,8 +631,17 @@ public class MeadActivity extends AppCompatActivity {
                         SpecGravity myTestSpec = new SpecGravity(myTest);
 
                         //Add to database and get database ID
-                        myTestSpec.setID(db.insertTest(myTestSpec.getTestGravity(), myTestSpec.getTestDate().getTimeInMillis(),mead.get(meadID).getId()));
+                        myTestSpec.setID(db.insertTest(myTestSpec.getTestGravity(), myTestSpec.getTestDate().getTimeInMillis(), mead.get(meadID).getId()));
+
                         mead.get(meadID).setDate(myTestSpec.getTestDate());
+
+                        //Get Alcohol Level put entries into current and update mead record.
+                        Mead mMead = db.getMeadRecordFromID(mead.get(meadID).getId());
+                        Double mAlcohol = myTestSpec.getAlcohol(mMead.getOG());
+                        mMead.setAlcohol(mAlcohol);
+                        db.updateMead(mMead);
+                        mead.get(meadID).setAlcohol(myTestSpec.getAlcohol(db.getMeadRecordFromID(mead.get(meadID).getId()).getOG()));
+
                     } else {
                         Toast.makeText(c, "Test Entry Database Insert Failed", Toast.LENGTH_SHORT).show();
                     }
@@ -368,7 +659,5 @@ public class MeadActivity extends AppCompatActivity {
             dismiss();
         }
     }
-
-
 
 }

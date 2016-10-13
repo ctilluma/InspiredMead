@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -46,12 +47,13 @@ public class MeadListAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-
+        //Formatters
+        DecimalFormat df = new DecimalFormat("#.##");
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss zzz");
 
         LayoutInflater mInflater = (LayoutInflater) activity
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-         convertView = mInflater.inflate(R.layout.content_mead_layout, null);
+        convertView = mInflater.inflate(R.layout.content_mead_layout, null);
 
         TextView name = (TextView) convertView.findViewById(R.id.name);
         TextView date = (TextView) convertView.findViewById(R.id.date);
@@ -72,7 +74,7 @@ public class MeadListAdapter extends ArrayAdapter {
             date.setTextColor(ContextCompat.getColor(activity, R.color.mead_red));
         }
 
-        alcohol.setText((String.valueOf(mead.getAlcohol())+"% ABV"));
+        alcohol.setText((String.valueOf(df.format(mead.getAlcohol())) + "% ABV"));
         volume.setText(String.valueOf(mead.getVolume()) + " litres");
 
         return convertView;

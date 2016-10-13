@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mead_filter_menu">
+        <item>Rack</item>
+        <item>Course Filter - 5 micron</item>
+        <item>Polishing Filter</item>
+        <item>Sterile Filter</item>
+    </string-array>
+</resources>

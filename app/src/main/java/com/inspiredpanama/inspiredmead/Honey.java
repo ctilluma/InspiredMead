@@ -103,7 +103,7 @@ public class Honey {
     }
 
     public double getSG() {
-        return (( brix / ( 258.6 - (( brix / 258.2 ) * 227.1 ))) + 1);
+        return ((brix / (258.6 - ((brix / 258.2) * 227.1))) + 1);
     }
 
 }

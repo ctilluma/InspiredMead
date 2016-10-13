@@ -5,7 +5,19 @@
     <item android:id="@+id/action_add"
         android:icon="@drawable/ic_action_add"
         android:title="@string/action_add"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_sort_r"
+        android:icon="@drawable/ic_action_sort_1_r"
+        android:title="@string/action_sort"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_sort"
+        android:icon="@drawable/ic_action_sort_1"
+        android:title="@string/action_sort_add"
+        app:showAsAction="ifRoom" />
 
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"

@@ -14,5 +14,8 @@
     <string name="tankCapacity">Tank Capacity</string>
     <string name="meadName">Mead Name</string>
     <string name="action_back">Back</string>
+    <string name="action_sort">Sort</string>
+    <string name="action_sort_add">Rev. Sort</string>
+    <string name="waste">Waste</string>
 </resources>
 
