@@ -19,10 +19,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -43,6 +47,56 @@ public class MeadDisplay extends AppCompatActivity {
     DBMead db;
     DecimalFormat df = new DecimalFormat("#.##");  //Format to two decimal place precision for viewing
     private ProgressDialog pDialog;
+    private MeadListAdapter mAdapter;
+    private AddAdditionsAdapter mAddAdapter;
+    private AddHoneyAdapter mHoneyAdapter;
+
+    //List Views for Activity
+    private ListView mHoneyList;
+    private ListView mAddList;
+
+    public static boolean setListViewHeightBasedOnItems(ListView listView, int maxElements) {
+
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter != null) {
+
+            int numberOfItems = listAdapter.getCount();
+
+            // Get total height of all items.
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                View item = listAdapter.getView(itemPos, null, listView);
+                item.measure(0, 0);
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers.
+            int totalDividersHeight = listView.getDividerHeight() *
+                    (numberOfItems - 1);
+
+            // Set list height.
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            int mHeight, totalHeight;
+
+            totalHeight = totalItemsHeight + totalDividersHeight;
+
+            if (maxElements > numberOfItems) {
+                mHeight = maxElements * (totalHeight / numberOfItems);
+            } else {
+                mHeight = totalHeight;
+            }
+
+            params.height = mHeight;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+
+            return true;
+
+        } else {
+            return false;
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +129,7 @@ public class MeadDisplay extends AppCompatActivity {
 
         //Display MeadData
         displayMead();
+        displayListOnClick();
 
     }
 
@@ -444,14 +499,12 @@ public class MeadDisplay extends AppCompatActivity {
         db.updateMead(myMead);
     }
 
-
     //onClick for NewTest Field
     public void onClickTest(View v) {
         NewTestDialogClass newTestClass = new NewTestDialogClass(this);
         newTestClass.show();
         displayMead();
     }
-
 
     private void doExit() {
         Intent intentMessage = new Intent();
@@ -462,6 +515,40 @@ public class MeadDisplay extends AppCompatActivity {
         setResult(0, intentMessage);
 
         finish();
+    }
+
+    private void displayListOnClick() {
+        mHoneyList = (ListView) findViewById(R.id.md_honey_list);
+        mAddList = (ListView) findViewById(R.id.md_addition_list);
+
+        // Set List Adapters
+        mAddAdapter = new AddAdditionsAdapter(this, db.getAdditiveAdditionsFromMead(myMead.getId()));
+        mAddAdapter.add(new Additive("Add Other"));
+        mHoneyAdapter = new AddHoneyAdapter(this, db.getHoneyAdditionsFromMead(myMead.getId()));
+        mHoneyAdapter.add(new Honey("Add Honey"));
+        mAddList.setAdapter(mAddAdapter);
+        mHoneyList.setAdapter(mHoneyAdapter);
+
+        mAddList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+
+                //Start perform activty when addition is clicked - Edit Dialog
+
+            }
+        });
+
+        mHoneyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+
+                //Start perform activty when addition is clicked - Edit Dialog
+
+            }
+        });
+
     }
 
     public class NewTestDialogClass extends Dialog implements
@@ -526,7 +613,6 @@ public class MeadDisplay extends AppCompatActivity {
             dismiss();
         }
     }
-
 
 }
 

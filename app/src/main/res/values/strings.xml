@@ -17,5 +17,14 @@
     <string name="action_sort">Sort</string>
     <string name="action_sort_add">Rev. Sort</string>
     <string name="waste">Waste</string>
+    <string name="add_honey">Add Honey</string>
+    <string name="add_addition">Add Other</string>
+    <string name="amount">Amount</string>
+    <string name="honeyName">Honey Name</string>
+    <string name="Brix">Brix</string>
+    <string name="description">Description</string>
+    <string name="add_other">Add Other</string>
+    <string name="additiveName">Additive</string>
+    <string name="sg">Specific Gravity</string>
 </resources>
 

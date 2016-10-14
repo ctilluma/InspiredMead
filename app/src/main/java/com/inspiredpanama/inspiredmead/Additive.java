@@ -37,7 +37,6 @@ public class Additive {
     }
 
     public Additive(long id, long additiveID, double brix, String name, String flavour, double amount, boolean isMetric, boolean isWeight) {
-        this.id = id;
         this.additiveID = additiveID;
         this.brix = brix;
         this.name = name;
@@ -114,6 +113,10 @@ public class Additive {
 
     public double getSG() {
         return ((brix / (258.6 - ((brix / 258.2) * 227.1))) + 1);
+    }
+
+    public void setSG(double sg) {
+        brix = ((((182.4601 * sg - 775.6821) * sg + 1262.7794) * sg - 669.5622));
     }
 
 }

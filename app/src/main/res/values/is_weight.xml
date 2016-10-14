@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="is_weight">
+        <item>volume</item>
+        <item>weight</item>
+    </string-array>
+</resources>

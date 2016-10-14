@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MeadActivity">
+
+    <TextView
+        android:id="@+id/ah_add_honey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/add_honey"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/ah_name_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20sp">
+
+        <Spinner
+            android:id="@+id/ah_name_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/ah_amount_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ah_name_layout"
+        android:layout_margin="10sp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/ah_amt_edit_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <EditText
+                android:id="@+id/ah_amount"
+                android:layout_width="90sp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/amount"
+                android:inputType="numberDecimal" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/ah_metric_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="25sp">
+
+            <Spinner
+                android:id="@+id/ah_metric_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/ah_button_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ah_amount_layout"
+        android:layout_alignStart="@+id/ah_amount_layout"
+        android:layout_below="@+id/ah_amount_layout"
+        android:layout_marginLeft="10sp"
+        android:text="@string/ok" />
+
+    <Button
+        android:id="@+id/ah_button_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ah_button_ok"
+        android:layout_alignEnd="@+id/ah_amount_layout"
+        android:layout_alignRight="@+id/ah_amount_layout"
+        android:layout_marginRight="10sp"
+        android:text="@string/cancel" />
+
+</RelativeLayout>

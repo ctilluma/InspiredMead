@@ -410,6 +410,7 @@ public class DBMead extends SQLiteOpenHelper {
         } else return null;
     }
 
+
     public Additive getAdditiveRecord(Cursor current) {
         if (current.moveToFirst()) {
             if ((current.getString(current.getColumnIndex(ADDITIVE_COLUMN_ID)) != null) && (!current.getString(current.getColumnIndex(ADDITIVE_COLUMN_ID)).isEmpty())) {
@@ -430,13 +431,91 @@ public class DBMead extends SQLiteOpenHelper {
         } else return null;
     }
 
+    public List<String> getHoneyNameList() {
+        List<String> mList = new ArrayList<>();
+
+        String selectQuery = "SELECT " + HONEY_COLUMN_NAME + " FROM " + HONEY_TABLE_NAME;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.getCount() > 0) {
+            // Loop all rows
+            if (cursor.moveToFirst()) {
+                do {
+                    mList.add(cursor.getString(cursor.getColumnIndex(HONEY_COLUMN_NAME)));
+                } while (cursor.moveToNext());
+            }
+        }
+
+        return mList;
+    }
+
+    public long getHoneyIDFromName(String name) {
+        String selectQuery = "SELECT " + HONEY_COLUMN_ID + " FROM " + HONEY_TABLE_NAME;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.getCount() > 0) {
+            // Loop all rows
+            if (cursor.moveToFirst()) {
+                do {
+                    return Long.parseLong(cursor.getString(cursor.getColumnIndex(HONEY_COLUMN_ID)));
+                } while (cursor.moveToNext());
+            }
+        }
+
+        return 0;
+    }
+
+    public List<String> getAdditiveNameList() {
+        List<String> mList = new ArrayList<>();
+
+        String selectQuery = "SELECT " + ADDITIVE_COLUMN_NAME + " FROM " + ADDITIVE_TABLE_NAME;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.getCount() > 0) {
+            // Loop all rows
+            if (cursor.moveToFirst()) {
+                do {
+                    mList.add(cursor.getString(cursor.getColumnIndex(ADDITIVE_COLUMN_NAME)));
+                } while (cursor.moveToNext());
+            }
+        }
+
+        return mList;
+    }
+
+    public long getAdditiveIDFromName(String name) {
+        String selectQuery = "SELECT " + ADDITIVE_COLUMN_ID + " FROM " + ADDITIVE_TABLE_NAME;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.getCount() > 0) {
+            // Loop all rows
+            if (cursor.moveToFirst()) {
+                do {
+                    return Long.parseLong(cursor.getString(cursor.getColumnIndex(ADDITIVE_COLUMN_ID)));
+                } while (cursor.moveToNext());
+            }
+        }
+
+        return 0;
+    }
+
+
     public List<Honey> getHoneyAdditionsFromMead(long meadID) {
         List<Honey> honeyList = new ArrayList<Honey>();
 
+
         //Select HoneyAdditions
         String selectQuery = "SELECT " +
-                HONEY_TABLE_NAME + "." + HONEY_COLUMN_ID + ", " +
-                HONEY_ADD_TABLE_NAME + "." + HONEY_ADD_COLUMN_ID + ", " +
+                HONEY_TABLE_NAME + "." + HONEY_COLUMN_ID + " AS honeyID, " +
+                HONEY_ADD_TABLE_NAME + "." + HONEY_ADD_COLUMN_ID + " AS hAddID, " +
                 HONEY_ADD_COLUMN_VOLUME + ", " +
                 HONEY_ADD_COLUMN_ISMETRIC + ", " +
                 HONEY_COLUMN_BRIX + ", " +
@@ -457,10 +536,13 @@ public class DBMead extends SQLiteOpenHelper {
             // Loop all rows
             if (cursor.moveToFirst()) {
                 do {
-                    Honey newHoney = getHoneyRecord(cursor);
+                    Honey newHoney = new Honey();
+                    newHoney.setName(cursor.getString(cursor.getColumnIndex(HONEY_COLUMN_NAME)));
+                    newHoney.setBrix(cursor.getDouble(cursor.getColumnIndex(HONEY_COLUMN_BRIX)));
+                    newHoney.setFlavor(cursor.getString(cursor.getColumnIndex(HONEY_COLUMN_FLAVOUR)));
                     newHoney.setVolume(cursor.getDouble(cursor.getColumnIndex(HONEY_ADD_COLUMN_VOLUME)));
-                    newHoney.setHoneyID(newHoney.getID());
-                    newHoney.setID(cursor.getLong(cursor.getColumnIndex((HONEY_ADD_TABLE_NAME + "." + HONEY_ADD_COLUMN_ID))));
+                    newHoney.setHoneyID(cursor.getLong(cursor.getColumnIndex("honeyID")));
+                    newHoney.setID(cursor.getLong(cursor.getColumnIndex("hAddID")));
                     if (cursor.getInt(cursor.getColumnIndex(HONEY_ADD_COLUMN_ISMETRIC)) == 0) {
                         newHoney.setMetric(false);
                     } else {
@@ -482,8 +564,8 @@ public class DBMead extends SQLiteOpenHelper {
 
         //Select AdditiveAdditions
         String selectQuery = "SELECT " +
-                ADDITIVE_TABLE_NAME + "." + ADDITIVE_COLUMN_ID + ", " +
-                ADDITIVE_ADD_TABLE_NAME + "." + ADDITIVE_ADD_COLUMN_ID + ", " +
+                ADDITIVE_TABLE_NAME + "." + ADDITIVE_COLUMN_ID + " AS addID, " +
+                ADDITIVE_ADD_TABLE_NAME + "." + ADDITIVE_ADD_COLUMN_ID + " AS addAddID, " +
                 ADDITIVE_ADD_COLUMN_AMOUNT + ", " +
                 ADDITIVE_ADD_COLUMN_ISMETRIC + ", " +
                 ADDITIVE_ADD_COLUMN_ISWEIGHT + ", " +
@@ -504,10 +586,13 @@ public class DBMead extends SQLiteOpenHelper {
             // Loop all rows
             if (cursor.moveToFirst()) {
                 do {
-                    Additive newAdd = getAdditiveRecord(cursor);
+                    Additive newAdd = new Additive();
+                    newAdd.setName(cursor.getString(cursor.getColumnIndex(ADDITIVE_COLUMN_NAME)));
+                    newAdd.setBrix(cursor.getDouble(cursor.getColumnIndex(ADDITIVE_COLUMN_BRIX)));
+                    newAdd.setFlavor(cursor.getString(cursor.getColumnIndex(ADDITIVE_COLUMN_FLAVOUR)));
                     newAdd.setAmount(cursor.getDouble(cursor.getColumnIndex(ADDITIVE_ADD_COLUMN_AMOUNT)));
-                    newAdd.setAdditiveID(newAdd.getID());
-                    newAdd.setID(cursor.getLong(cursor.getColumnIndex((ADDITIVE_ADD_TABLE_NAME + "." + ADDITIVE_ADD_COLUMN_ID))));
+                    newAdd.setAdditiveID(cursor.getLong(cursor.getColumnIndex("addID")));
+                    newAdd.setID(cursor.getLong(cursor.getColumnIndex("addAddID")));
                     if (cursor.getInt(cursor.getColumnIndex(ADDITIVE_ADD_COLUMN_ISMETRIC)) == 0) {
                         newAdd.setMetric(false);
                     } else {
