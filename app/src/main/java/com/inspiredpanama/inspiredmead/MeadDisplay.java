@@ -528,8 +528,7 @@ public class MeadDisplay extends AppCompatActivity {
         mHoneyAdapter.add(new Honey("Add Honey"));
         mAddList.setAdapter(mAddAdapter);
         mHoneyList.setAdapter(mHoneyAdapter);
-        registerForContextMenu(mAddList);
-        registerForContextMenu(mHoneyList);
+        
 
         mAddList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -81,6 +81,8 @@ public class DBMead extends SQLiteOpenHelper {
     public static final String INVENTORY_COLUMN_MEADID = "meadID";
     public static final String INVENTORY_COLUMN_VOLUME = "volume";
     public static final String INVENTORY_COLUMN_QUANTITY = "quantity";
+    public static final String INVENTORY_COLUMN_DATE = "date";
+
     private static final int DATABASE_VERSION = 1;
     //Database Upgrade STATICS
     private static final String DATABASE_ALTER_HONEY_ADD_1 = "ALTER TABLE "
@@ -183,6 +185,7 @@ public class DBMead extends SQLiteOpenHelper {
                 INVENTORY_COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 INVENTORY_COLUMN_MEADID + " INTEGER, " +
                 INVENTORY_COLUMN_VOLUME + " REAL, " +
+                INVENTORY_COLUMN_DATE + " INTEGER, " +
                 INVENTORY_COLUMN_QUANTITY + " INTEGER)");
     }
 
@@ -325,12 +328,13 @@ public class DBMead extends SQLiteOpenHelper {
         return meadID;
     }
 
-    public long insertInventory(long meadID, double volume, double quantity) {
+    public long insertInventory(long meadID, double volume, double quantity, GregorianCalendar date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(INVENTORY_COLUMN_MEADID, meadID);
         contentValues.put(INVENTORY_COLUMN_VOLUME, volume);
         contentValues.put(INVENTORY_COLUMN_QUANTITY, quantity);
+        contentValues.put(INVENTORY_COLUMN_DATE, date.getTimeInMillis());
         return db.insert(INVENTORY_TABLE_NAME, null, contentValues);
     }
 
@@ -1022,12 +1026,13 @@ public class DBMead extends SQLiteOpenHelper {
         return db.update(MEAD_TABLE_NAME, contentValues, MEAD_COLUMN_ID + " = ? ", new String[]{Long.toString(mMead.getId())});
     }
 
-    public int updateInventory(int id, long meadID, double volume, double quantity) {
+    public int updateInventory(int id, long meadID, double volume, double quantity, GregorianCalendar date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(INVENTORY_COLUMN_MEADID, meadID);
         contentValues.put(INVENTORY_COLUMN_VOLUME, volume);
         contentValues.put(INVENTORY_COLUMN_QUANTITY, quantity);
+        contentValues.put(INVENTORY_COLUMN_DATE, date.getTimeInMillis());
         return db.update(INVENTORY_TABLE_NAME, contentValues, INVENTORY_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
     }
 
