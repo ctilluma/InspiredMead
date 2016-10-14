@@ -526,7 +526,7 @@
         <ListView
             android:id="@+id/md_honey_list"
             android:layout_width="match_parent"
-            android:layout_height="40sp"
+            android:layout_height="60sp"
             android:layout_gravity="center_horizontal"
             android:textSize="4sp" />
 
@@ -555,7 +555,7 @@
         <ListView
             android:id="@+id/md_addition_list"
             android:layout_width="match_parent"
-            android:layout_height="40sp"
+            android:layout_height="60sp"
             android:layout_gravity="center_horizontal"
             android:textSize="4sp" />
 
@@ -563,8 +563,8 @@
 
     <Button
         android:id="@+id/md_submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60sp"
+        android:layout_height="40sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16sp"

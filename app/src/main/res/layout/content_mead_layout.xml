@@ -6,22 +6,22 @@
     <TextView
         android:id="@+id/name"
         android:layout_width="fill_parent"
-        android:layout_height="26dip"
+        android:layout_height="26sp"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
+        android:layout_marginLeft="6sp"
+        android:layout_marginRight="6sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textSize="20dp"
         />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
-        android:layout_height="20dip"
+        android:layout_height="20sp"
         android:layout_below="@+id/name"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:textSize="12dp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:textSize="12sp"
         />
 
     <TextView
@@ -30,10 +30,11 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/date"
         android:layout_alignBottom="@+id/date"
+        android:layout_marginLeft="6sp"
+        android:layout_marginRight="6sp"
+        android:layout_toEndOf="@+id/date"
         android:layout_toRightOf="@+id/date"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
-        android:textSize="14dp"
+        android:textSize="14sp"
         />
 
     <TextView
@@ -42,10 +43,11 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/date"
         android:layout_alignBottom="@+id/date"
+        android:layout_marginLeft="6sp"
+        android:layout_marginRight="6sp"
+        android:layout_toEndOf="@+id/alcohol"
         android:layout_toRightOf="@+id/alcohol"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
-        android:textSize="14dp"
+        android:textSize="14sp"
         />
-        />
+
 </RelativeLayout>

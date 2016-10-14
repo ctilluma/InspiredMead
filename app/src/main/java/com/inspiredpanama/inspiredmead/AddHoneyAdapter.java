@@ -49,26 +49,29 @@ public class AddHoneyAdapter extends ArrayAdapter {
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         convertView = mInflater.inflate(R.layout.content_add_layout, null);
 
-        TextView amount = (TextView) convertView.findViewById(R.id.al_amount);
-        TextView type = (TextView) convertView.findViewById(R.id.al_type);
-        TextView name = (TextView) convertView.findViewById(R.id.al_name);
+        TextView amountView = (TextView) convertView.findViewById(R.id.al_amount);
+        TextView typeView = (TextView) convertView.findViewById(R.id.al_type);
+        TextView nameView = (TextView) convertView.findViewById(R.id.al_name);
 
         Honey mHoney = honeyList.get(position);
-
-        name.setText(mHoney.getName());
+        String name = mHoney.getName();
+        double amount = mHoney.getVolume();
+        boolean isMetric = mHoney.getMetric();
 
         String tString; //temp String
 
-        for (int i = 0; i < honeyList.size(); i++) {
-            if (honeyList.get(i).getMetric() == false) {
-                tString = "gallons : ";
-            } else {
+        if (isMetric) {
                 tString = "litres : ";
+        } else {
+            tString = "gallons : ";
             }
 
-            amount.setText((String.valueOf(df.format(mHoney.getVolume()))));
-            type.setText(tString);
-        }
+        //Set View
+        nameView.setText(name);
+        amountView.setText((String.valueOf(df.format(amount))));
+        typeView.setText(tString);
+
+
         return convertView;
 
     }

@@ -335,7 +335,6 @@ public class MeadActivity extends AppCompatActivity {
 
         String resultData = data.getStringExtra("MEAD");
 
-
         // fetch the message String
         Mead tMead = db.getMeadRecordFromID(Long.valueOf(resultData));
 

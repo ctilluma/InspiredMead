@@ -76,7 +76,6 @@ public class AddAdditionsAdapter extends ArrayAdapter {
             }
         }
 
-
         amount.setText((String.valueOf(df.format(mAddit.getAmount()))));
         type.setText(tString);
 
