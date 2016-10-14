@@ -25,24 +25,28 @@ public class DBMead extends SQLiteOpenHelper {
     public static final String TESTS_COLUMN_SG = "sg";
     public static final String TESTS_COLUMN_DATE = "date";
     public static final String TESTS_COLUMN_MEADID = "meadID";
+    public static final String TESTS_COLUMN_UPDATED = "updateDate";
     //Database Filter Table
     public static final String FILTER_TABLE_NAME = "filter";
     public static final String FILTER_COLUMN_ID = "_id";
     public static final String FILTER_COLUMN_MEADID = "meadID";
     public static final String FILTER_COLUMN_DATE = "date";
     public static final String FILTER_COLUMN_FILTER = "filterSize";
+    public static final String FILTER_COLUMN_UPDATED = "updateDate";
     //Database Sample Table
     public static final String SAMPLE_TABLE_NAME = "sample";
     public static final String SAMPLE_COLUMN_ID = "_id";
     public static final String SAMPLE_COLUMN_TASTE = "taste";
     public static final String SAMPLE_COLUMN_DATE = "date";
     public static final String SAMPLE_COLUMN_MEADID = "meadID";
+    public static final String SAMPLE_COLUMN_UPDATED = "updateDate";
     //Database com.inspiredpanama.inspiredmead.Additives Table
     public static final String ADDITIVE_TABLE_NAME = "additive";
     public static final String ADDITIVE_COLUMN_ID = "_id";
     public static final String ADDITIVE_COLUMN_BRIX = "brix";
     public static final String ADDITIVE_COLUMN_NAME = "name";
     public static final String ADDITIVE_COLUMN_FLAVOUR = "flavor";
+    public static final String ADDITIVE_COLUMN_UPDATED = "updateDate";
     //Database com.inspiredpanama.inspiredmead.AddAdditions Additions
     public static final String ADDITIVE_ADD_TABLE_NAME = "addAdditions";
     public static final String ADDITIVE_ADD_COLUMN_ID = "_id";
@@ -51,12 +55,14 @@ public class DBMead extends SQLiteOpenHelper {
     public static final String ADDITIVE_ADD_COLUMN_AMOUNT = "amount";
     public static final String ADDITIVE_ADD_COLUMN_ISMETRIC = "isMetric";
     public static final String ADDITIVE_ADD_COLUMN_ISWEIGHT = "isWeight";
+    public static final String ADDITIVE_ADD_COLUMN_UPDATED = "updateDate";
     //Database com.inspiredpanama.inspiredmead.Honey Table
     public static final String HONEY_TABLE_NAME = "honey";
     public static final String HONEY_COLUMN_ID = "_id";
     public static final String HONEY_COLUMN_BRIX = "brix";
     public static final String HONEY_COLUMN_NAME = "name";
     public static final String HONEY_COLUMN_FLAVOUR = "flavor";
+    public static final String HONEY_COLUMN_UPDATED = "updateDate";
     //Database com.inspiredpanama.inspiredmead.Honey Additions
     public static final String HONEY_ADD_TABLE_NAME = "honeyAdditions";
     public static final String HONEY_ADD_COLUMN_ID = "_id";
@@ -64,6 +70,7 @@ public class DBMead extends SQLiteOpenHelper {
     public static final String HONEY_ADD_COLUMN_MEADID = "meadID";
     public static final String HONEY_ADD_COLUMN_VOLUME = "volume";
     public static final String HONEY_ADD_COLUMN_ISMETRIC = "isMetric";
+    public static final String HONEY_ADD_COLUMN_UPDATED = "updateDate";
     //Database com.inspiredpanama.inspiredmead.Mead Table
     public static final String MEAD_TABLE_NAME = "mead";
     public static final String MEAD_COLUMN_ID = "_id";
@@ -75,6 +82,7 @@ public class DBMead extends SQLiteOpenHelper {
     public static final String MEAD_COLUMN_START = "brewDate";
     public static final String MEAD_COLUMN_WASTE = "waste";
     public static final String MEAD_COLUMN_ORIGVOL = "origVol";
+    public static final String MEAD_COLUMN_UPDATED = "updateDate";
     //Database Inventory
     public static final String INVENTORY_TABLE_NAME = "inventory";
     public static final String INVENTORY_COLUMN_ID = "_id";
@@ -82,6 +90,8 @@ public class DBMead extends SQLiteOpenHelper {
     public static final String INVENTORY_COLUMN_VOLUME = "volume";
     public static final String INVENTORY_COLUMN_QUANTITY = "quantity";
     public static final String INVENTORY_COLUMN_DATE = "date";
+    public static final String INVENTORY_COLUMN_UPDATED = "updateDate";
+
 
     private static final int DATABASE_VERSION = 1;
     //Database Upgrade STATICS
@@ -121,6 +131,7 @@ public class DBMead extends SQLiteOpenHelper {
                 TESTS_COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 TESTS_COLUMN_SG + " REAL, " +
                 TESTS_COLUMN_DATE + " INT, " +
+                TESTS_COLUMN_UPDATED + " INT, " +
                 TESTS_COLUMN_MEADID + " INT)");
 
         //FILTER TABLE
@@ -128,6 +139,7 @@ public class DBMead extends SQLiteOpenHelper {
                 FILTER_COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 FILTER_COLUMN_MEADID + " INTEGER, " +
                 FILTER_COLUMN_DATE + " INT, " +
+                FILTER_COLUMN_UPDATED + " INT, " +
                 FILTER_COLUMN_FILTER + " INT)");
 
         //SAMPLE TABLE
@@ -135,6 +147,7 @@ public class DBMead extends SQLiteOpenHelper {
                 SAMPLE_COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 SAMPLE_COLUMN_TASTE + " BLOB, " +
                 SAMPLE_COLUMN_DATE + " INT, " +
+                SAMPLE_COLUMN_UPDATED + " INT, " +
                 SAMPLE_COLUMN_MEADID + " INT)");
 
         //HONEY TABLE
@@ -142,6 +155,7 @@ public class DBMead extends SQLiteOpenHelper {
                 HONEY_COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 HONEY_COLUMN_BRIX + " REAL, " +
                 HONEY_COLUMN_NAME + " TEXT, " +
+                HONEY_COLUMN_UPDATED + " INT, " +
                 HONEY_COLUMN_FLAVOUR + " TEXT)");
 
         //HONEY ADD TABLE
@@ -150,6 +164,7 @@ public class DBMead extends SQLiteOpenHelper {
                 HONEY_ADD_COLUMN_HONEYID + " INTEGER, " +
                 HONEY_ADD_COLUMN_MEADID + " INTEGER, " +
                 HONEY_ADD_COLUMN_ISMETRIC + " INTEGER, " +
+                HONEY_ADD_COLUMN_UPDATED + " INT, " +
                 HONEY_ADD_COLUMN_VOLUME + " REAL)");
 
         //ADDITIVE TABLE
@@ -157,6 +172,7 @@ public class DBMead extends SQLiteOpenHelper {
                 ADDITIVE_COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 ADDITIVE_COLUMN_BRIX + " REAL, " +
                 ADDITIVE_COLUMN_NAME + " TEXT, " +
+                ADDITIVE_COLUMN_UPDATED + " INT, " +
                 ADDITIVE_COLUMN_FLAVOUR + " TEXT)");
 
         //ADDITIVE ADD TABLE
@@ -166,6 +182,7 @@ public class DBMead extends SQLiteOpenHelper {
                 ADDITIVE_ADD_COLUMN_MEADID + " INTEGER, " +
                 ADDITIVE_ADD_COLUMN_AMOUNT + " REAL, " +
                 ADDITIVE_ADD_COLUMN_ISMETRIC + " INTEGER, " +
+                ADDITIVE_ADD_COLUMN_UPDATED + " INT, " +
                 ADDITIVE_ADD_COLUMN_ISWEIGHT + " INTEGER)");
 
         //MEAD TABLE
@@ -176,8 +193,9 @@ public class DBMead extends SQLiteOpenHelper {
                 MEAD_COLUMN_CAPACITY + " REAL, " +
                 MEAD_COLUMN_VOLUME + " REAL, " +
                 MEAD_COLUMN_ALCOHOL + " REAL, " +
-                MEAD_COLUMN_START + " REAL, " +
+                MEAD_COLUMN_START + " INTEGER, " +
                 MEAD_COLUMN_ORIGVOL + " REAL, " +
+                MEAD_COLUMN_UPDATED + " INTEGER, " +
                 MEAD_COLUMN_WASTE + " REAL)");
 
         //INVENTORY TABLE
@@ -186,6 +204,7 @@ public class DBMead extends SQLiteOpenHelper {
                 INVENTORY_COLUMN_MEADID + " INTEGER, " +
                 INVENTORY_COLUMN_VOLUME + " REAL, " +
                 INVENTORY_COLUMN_DATE + " INTEGER, " +
+                INVENTORY_COLUMN_UPDATED + " INTEGER, " +
                 INVENTORY_COLUMN_QUANTITY + " INTEGER)");
     }
 
@@ -209,6 +228,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(TESTS_COLUMN_SG, sg);
         contentValues.put(TESTS_COLUMN_DATE, date);
         contentValues.put(TESTS_COLUMN_MEADID, meadID);
+        contentValues.put(TESTS_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.insert(TESTS_TABLE_NAME, null, contentValues);
     }
 
@@ -217,6 +237,7 @@ public class DBMead extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(FILTER_COLUMN_MEADID, meadID);
         contentValues.put(FILTER_COLUMN_DATE, date);
+        contentValues.put(FILTER_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         contentValues.put(FILTER_COLUMN_FILTER, filterSize);
         return db.insert(FILTER_TABLE_NAME, null, contentValues);
     }
@@ -230,6 +251,7 @@ public class DBMead extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(SAMPLE_COLUMN_TASTE, taste);
         contentValues.put(SAMPLE_COLUMN_DATE, date);
+        contentValues.put(SAMPLE_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         contentValues.put(SAMPLE_COLUMN_MEADID, meadID);
         return db.insert(SAMPLE_TABLE_NAME, null, contentValues);
     }
@@ -240,6 +262,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(HONEY_COLUMN_BRIX, brix);
         contentValues.put(HONEY_COLUMN_NAME, name);
         contentValues.put(HONEY_COLUMN_FLAVOUR, flavour);
+        contentValues.put(HONEY_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.insert(HONEY_TABLE_NAME, null, contentValues);
     }
 
@@ -250,6 +273,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(HONEY_ADD_COLUMN_MEADID, meadID);
         contentValues.put(HONEY_ADD_COLUMN_VOLUME, volume);
         contentValues.put(HONEY_ADD_COLUMN_ISMETRIC, isMetric);
+        contentValues.put(HONEY_ADD_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.insert(HONEY_ADD_TABLE_NAME, null, contentValues);
     }
 
@@ -259,6 +283,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(ADDITIVE_COLUMN_BRIX, brix);
         contentValues.put(ADDITIVE_COLUMN_NAME, name);
         contentValues.put(ADDITIVE_COLUMN_FLAVOUR, flavour);
+        contentValues.put(ADDITIVE_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.insert(ADDITIVE_TABLE_NAME, null, contentValues);
     }
 
@@ -270,6 +295,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(ADDITIVE_ADD_COLUMN_AMOUNT, amount);
         contentValues.put(ADDITIVE_ADD_COLUMN_ISMETRIC, isMetric);
         contentValues.put(ADDITIVE_ADD_COLUMN_ISWEIGHT, isWeight);
+        contentValues.put(ADDITIVE_ADD_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.insert(ADDITIVE_ADD_TABLE_NAME, null, contentValues);
     }
 
@@ -284,6 +310,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(MEAD_COLUMN_START, brewDate);
         contentValues.put(MEAD_COLUMN_ORIGVOL, origVol);
         contentValues.put(MEAD_COLUMN_WASTE, waste);
+        contentValues.put(MEAD_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.insertOrThrow(MEAD_TABLE_NAME, null, contentValues);
     }
 
@@ -335,6 +362,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(INVENTORY_COLUMN_VOLUME, volume);
         contentValues.put(INVENTORY_COLUMN_QUANTITY, quantity);
         contentValues.put(INVENTORY_COLUMN_DATE, date.getTimeInMillis());
+        contentValues.put(INVENTORY_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.insert(INVENTORY_TABLE_NAME, null, contentValues);
     }
 
@@ -949,6 +977,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(TESTS_COLUMN_SG, sg);
         contentValues.put(TESTS_COLUMN_DATE, date);
         contentValues.put(TESTS_COLUMN_MEADID, meadID);
+        contentValues.put(TESTS_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.update(TESTS_TABLE_NAME, contentValues, TESTS_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
     }
 
@@ -958,6 +987,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(SAMPLE_COLUMN_TASTE, taste);
         contentValues.put(SAMPLE_COLUMN_DATE, date);
         contentValues.put(SAMPLE_COLUMN_MEADID, meadID);
+        contentValues.put(SAMPLE_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.update(SAMPLE_TABLE_NAME, contentValues, SAMPLE_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
     }
 
@@ -967,6 +997,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(HONEY_COLUMN_BRIX, brix);
         contentValues.put(HONEY_COLUMN_NAME, name);
         contentValues.put(HONEY_COLUMN_FLAVOUR, flavour);
+        contentValues.put(HONEY_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.update(HONEY_TABLE_NAME, contentValues, HONEY_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
     }
 
@@ -977,6 +1008,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(HONEY_ADD_COLUMN_MEADID, meadID);
         contentValues.put(HONEY_ADD_COLUMN_VOLUME, volume);
         contentValues.put(HONEY_ADD_COLUMN_ISMETRIC, isMetric);
+        contentValues.put(HONEY_ADD_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.update(HONEY_ADD_TABLE_NAME, contentValues, HONEY_ADD_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
     }
 
@@ -986,6 +1018,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(ADDITIVE_COLUMN_BRIX, brix);
         contentValues.put(ADDITIVE_COLUMN_NAME, name);
         contentValues.put(ADDITIVE_COLUMN_FLAVOUR, flavour);
+        contentValues.put(ADDITIVE_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.update(ADDITIVE_TABLE_NAME, contentValues, ADDITIVE_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
     }
 
@@ -997,6 +1030,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(ADDITIVE_ADD_COLUMN_AMOUNT, volume);
         contentValues.put(ADDITIVE_ADD_COLUMN_ISMETRIC, isMetric);
         contentValues.put(ADDITIVE_ADD_COLUMN_ISWEIGHT, isWeight);
+        contentValues.put(ADDITIVE_ADD_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.update(ADDITIVE_ADD_TABLE_NAME, contentValues, ADDITIVE_ADD_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
     }
 
@@ -1008,6 +1042,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(MEAD_COLUMN_CAPACITY, capacity);
         contentValues.put(MEAD_COLUMN_VOLUME, volume);
         contentValues.put(MEAD_COLUMN_ALCOHOL, alcohol);
+        contentValues.put(MEAD_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.update(MEAD_TABLE_NAME, contentValues, MEAD_COLUMN_ID + " = ? ", new String[]{Long.toString(id)});
     }
 
@@ -1022,6 +1057,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(MEAD_COLUMN_WASTE, mMead.getWaste());
         contentValues.put(MEAD_COLUMN_ORIGVOL, mMead.getOrigVolume());
         contentValues.put(MEAD_COLUMN_START, mMead.getStartDate().getTimeInMillis());
+        contentValues.put(MEAD_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
 
         return db.update(MEAD_TABLE_NAME, contentValues, MEAD_COLUMN_ID + " = ? ", new String[]{Long.toString(mMead.getId())});
     }
@@ -1033,6 +1069,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(INVENTORY_COLUMN_VOLUME, volume);
         contentValues.put(INVENTORY_COLUMN_QUANTITY, quantity);
         contentValues.put(INVENTORY_COLUMN_DATE, date.getTimeInMillis());
+        contentValues.put(INVENTORY_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
         return db.update(INVENTORY_TABLE_NAME, contentValues, INVENTORY_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
     }
 
