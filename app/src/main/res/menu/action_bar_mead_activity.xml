@@ -2,25 +2,35 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_add"
+    <item
+        android:id="@+id/abm_action_add"
         android:icon="@drawable/ic_action_add"
         android:title="@string/action_add"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_sort_r"
+        android:id="@+id/abm_action_sort_r"
         android:icon="@drawable/ic_action_sort_1_r"
         android:title="@string/action_sort"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/action_sort"
+        android:id="@+id/abm_action_sort"
         android:icon="@drawable/ic_action_sort_1"
         android:title="@string/action_sort_add"
         app:showAsAction="ifRoom" />
 
     <!-- Settings, should always be in the overflow -->
-    <item android:id="@+id/action_settings"
+    <item
+        android:id="@+id/abm_add_honey"
+        android:title="@string/add_honey"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/abm_add_other"
+        android:title="@string/add_other"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/abm_settings"
         android:icon="@drawable/ic_action_settings"
         android:title="@string/action_settings"
         app:showAsAction="never"/>

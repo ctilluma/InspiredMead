@@ -159,18 +159,30 @@ public class MeadActivity extends AppCompatActivity {
         arrayAdapterSort.add("Volume");
 
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.abm_add_honey:
+                //Add Honey Dialog
+                NewHoneyAddClass newHoney = new NewHoneyAddClass(this, db);
+                newHoney.show();
+                return true;
+
+            case R.id.abm_add_other:
+                //Add Other Dialog
+                NewOtherAddClass newOther = new NewOtherAddClass(this, db);
+                newOther.show();
+                return true;
+
+            case R.id.abm_settings:
                 // Perform App Settings
                 return true;
 
-            case R.id.action_add:
+            case R.id.abm_action_add:
                 // Add Mead Window
                 NewMeadDialogClass newMeadClass = new NewMeadDialogClass(this);
                 newMeadClass.show();
 
                 return true;
 
-            case R.id.action_sort: //Descending Sort
+            case R.id.abm_action_sort: //Descending Sort
                 AlertDialog.Builder sortTypeDes = new AlertDialog.Builder(MeadActivity.this);
                 sortTypeDes.setTitle("Select Sort Method");
 
@@ -197,7 +209,7 @@ public class MeadActivity extends AppCompatActivity {
                 sortTypeDes.show();
 
                 return true;
-            case R.id.action_sort_r: //Ascending Sort
+            case R.id.abm_action_sort_r: //Ascending Sort
                 AlertDialog.Builder sortTypeAsc = new AlertDialog.Builder(MeadActivity.this);
                 sortTypeAsc.setTitle("Select Sort Method");
 
@@ -276,13 +288,13 @@ public class MeadActivity extends AppCompatActivity {
 
             case 3: //Add Honey
                 // Add Mead Window
-                NewAddHoneyDialogClass newHoneyClass = new NewAddHoneyDialogClass(this, mead.get(info.position).getId());
+                NewAddHoneyDialogClass newHoneyClass = new NewAddHoneyDialogClass(this, mead.get(info.position).getId(), db);
                 newHoneyClass.show();
                 return true;
 
             case 4: //Add Other
                 // Add Mead Window
-                NewAddAdditiveDialogClass newAddClass = new NewAddAdditiveDialogClass(this, mead.get(info.position).getId());
+                NewAddAdditiveDialogClass newAddClass = new NewAddAdditiveDialogClass(this, mead.get(info.position).getId(), db);
                 newAddClass.show();
                 return true;
 
@@ -579,227 +591,6 @@ public class MeadActivity extends AppCompatActivity {
         }
     }
 
-    public class NewAddHoneyDialogClass extends Dialog implements
-            View.OnClickListener {
-
-        public Activity c;
-        public Dialog d;
-        Spinner mHoneySpinner;
-        Spinner mHoneyTypeSpinner;
-        List<String> mStringList;
-        private long meadID;
-
-
-        public NewAddHoneyDialogClass(Activity a, long meadID) {
-            super(a);
-
-            this.c = a;
-            this.meadID = meadID;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.add_honey_add);
-
-
-            Button button_ok = (Button) findViewById(R.id.ah_button_ok);
-            Button button_cancel = (Button) findViewById(R.id.ah_button_cancel);
-            button_ok.setOnClickListener(this);
-            button_cancel.setOnClickListener(this);
-
-            mStringList = db.getHoneyNameList();
-
-            mStringList.add("Add Honey"); //Create Entry to add new Honey
-
-            //Set Spinners & Adapters
-            mHoneySpinner = (Spinner) findViewById(R.id.ah_name_spinner);
-            ArrayAdapter<String> mHoneySpinAdapter = new ArrayAdapter<String>(MeadActivity.this, android.R.layout.simple_spinner_item, mStringList);
-            mHoneySpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mHoneySpinner.setAdapter(mHoneySpinAdapter);
-
-            mHoneyTypeSpinner = (Spinner) findViewById(R.id.ah_metric_spinner);
-            ArrayAdapter<CharSequence> mHoneyTypeSpinnger = ArrayAdapter.createFromResource(MeadActivity.this,
-                    R.array.volume_types, android.R.layout.simple_spinner_item);
-            mHoneyTypeSpinner.setAdapter(mHoneyTypeSpinnger);
-
-        }
-
-        @Override
-        public void onClick(View view) {
-            double mVolume;
-
-            switch (view.getId()) {
-                case R.id.ah_button_ok:
-                    //Check for AddHoney First
-
-                    if (mHoneySpinner.getSelectedItemPosition() == (mStringList.size() - 1)) {  // Check if last item in list
-                        // Create Add Honey Dialog
-                        NewHoneyAddClass newHoney = new NewHoneyAddClass(MeadActivity.this);
-                        newHoney.show();
-
-                    }
-
-                    //Set Data from Dialog
-                    //TODO Check boundaries of numbers
-                    EditText mAmountText = (EditText) findViewById(R.id.ah_amount);
-                    if (mAmountText.getText().toString() == null || mAmountText.getText().toString().isEmpty()) {
-                        mVolume = 0.00;
-                    } else {
-                        mVolume = Double.parseDouble(mAmountText.getText().toString());
-                    }
-
-                    boolean metric = (mHoneyTypeSpinner.getSelectedItemPosition() != 0);
-
-                    long honeyID = db.getHoneyIDFromName(mStringList.get(mHoneySpinner.getSelectedItemPosition()));
-
-                    //Attempt to insert honey record into DB
-                    db.insertHoneyAddition(honeyID, meadID, mVolume, metric);
-
-                    break;
-                case R.id.ah_button_cancel:
-                    dismiss();
-                    break;
-                default:
-                    break;
-            }
-            dismiss();
-        }
-    }
-
-    public class NewAddAdditiveDialogClass extends Dialog implements
-            View.OnClickListener {
-
-        public Activity c;
-        public Dialog d;
-        Spinner mAdditiveSpinner;
-        Spinner mAdditiveTypeSpinner;
-        Spinner mAdditiveWeightSpinner;
-        ArrayAdapter<CharSequence> mAdditiveTypeSpinAdapter;
-        List<String> mStringList;
-        private long meadID;
-
-
-        public NewAddAdditiveDialogClass(Activity a, long meadID) {
-            super(a);
-
-            this.c = a;
-            this.meadID = meadID;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.add_other_add);
-
-
-            Button button_ok = (Button) findViewById(R.id.ao_button_ok);
-            Button button_cancel = (Button) findViewById(R.id.ao_button_cancel);
-            button_ok.setOnClickListener(this);
-            button_cancel.setOnClickListener(this);
-
-            mStringList = db.getAdditiveNameList();
-
-            mStringList.add("Add Other"); //Create Entry to add new Honey
-
-            //Set Spinners & Adapters
-            mAdditiveSpinner = (Spinner) findViewById(R.id.ao_name_spinner);
-            ArrayAdapter<String> mAdditiveSpinAdapter = new ArrayAdapter<String>(MeadActivity.this, android.R.layout.simple_spinner_item, mStringList);
-            mAdditiveSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mAdditiveSpinner.setAdapter(mAdditiveSpinAdapter);
-
-            mAdditiveWeightSpinner = (Spinner) findViewById(R.id.ao_weight_spinner);
-            ArrayAdapter<CharSequence> mAdditiveWeightSpinAdapter = ArrayAdapter.createFromResource(MeadActivity.this,
-                    R.array.is_weight, android.R.layout.simple_spinner_item);
-            mAdditiveWeightSpinner.setAdapter(mAdditiveWeightSpinAdapter);
-            mAdditiveWeightSpinner.setSelection(0);
-
-            setTypeSpinner(false);
-
-            mAdditiveWeightSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-                @Override
-                public void onItemSelected(AdapterView<?> spinner, View container,
-                                           int position, long id) {
-                    if (position > 0) {
-                        setTypeSpinner(true);
-                    } else {
-                        setTypeSpinner(false);
-                    }
-
-                    // mAdditiveTypeSpinAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> arg0) {
-                    // TODO Auto-generated method stub
-                }
-            });
-
-        }
-
-
-        private void setTypeSpinner(boolean isWeight) {
-            if (isWeight) {
-                mAdditiveTypeSpinner = (Spinner) findViewById(R.id.ao_metric_spinner);
-                mAdditiveTypeSpinAdapter = ArrayAdapter.createFromResource(MeadActivity.this,
-                        R.array.weight_types, android.R.layout.simple_spinner_item);
-                mAdditiveTypeSpinner.setAdapter(mAdditiveTypeSpinAdapter);
-
-            } else {
-                mAdditiveTypeSpinner = (Spinner) findViewById(R.id.ao_metric_spinner);
-                ArrayAdapter<CharSequence> mAdditiveTypeSpinAdapter = ArrayAdapter.createFromResource(MeadActivity.this,
-                        R.array.volume_types, android.R.layout.simple_spinner_item);
-                mAdditiveTypeSpinner.setAdapter(mAdditiveTypeSpinAdapter);
-
-            }
-        }
-
-        @Override
-        public void onClick(View view) {
-            double mVolume;
-
-            switch (view.getId()) {
-                case R.id.ao_button_ok:
-                    //Check for AddHoney First
-
-                    if (mAdditiveSpinner.getSelectedItemPosition() == (mStringList.size() - 1)) {  // Check if last item in list
-                        // Create Add Other Dialog
-                        NewOtherAddClass newOther = new NewOtherAddClass(MeadActivity.this);
-                        newOther.show();
-
-                    }
-
-                    //Set Data from Dialog
-                    //TODO Check boundaries of numbers
-                    EditText mAmountText = (EditText) findViewById(R.id.ao_amount);
-                    if (mAmountText.getText().toString() == null || mAmountText.getText().toString().isEmpty()) {
-                        mVolume = 0.00;
-                    } else {
-                        mVolume = Double.parseDouble(mAmountText.getText().toString());
-                    }
-
-                    boolean metric = (mAdditiveTypeSpinner.getSelectedItemPosition() != 0);
-                    boolean weight = (mAdditiveWeightSpinner.getSelectedItemPosition() != 0);
-
-                    long additiveID = db.getAdditiveIDFromName(mStringList.get(mAdditiveSpinner.getSelectedItemPosition()));
-
-                    //Attempt to insert honey record into DB
-                    db.insertAdditiveAdd(additiveID, meadID, mVolume, metric, weight);
-
-                    break;
-                case R.id.ah_button_cancel:
-                    dismiss();
-                    break;
-                default:
-                    break;
-            }
-            dismiss();
-        }
-    }
-
     public class NewFilterDialogClass extends Dialog implements
             View.OnClickListener {
 
@@ -927,145 +718,6 @@ public class MeadActivity extends AppCompatActivity {
 
                     break;
                 case R.id.button_cancel:
-                    dismiss();
-                    break;
-                default:
-                    break;
-            }
-            dismiss();
-        }
-
-    }
-
-    public class NewHoneyAddClass extends Dialog implements
-            View.OnClickListener {
-
-        public Activity c;
-        public Dialog d;
-
-        public NewHoneyAddClass(Activity a) {
-            super(a);
-
-            this.c = a;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.honey_edit);
-            Button button_ok = (Button) findViewById(R.id.he_button_ok);
-            Button button_cancel = (Button) findViewById(R.id.he_button_cancel);
-            button_ok.setOnClickListener(this);
-            button_cancel.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            EditText mEditText;
-            switch (view.getId()) {
-                case R.id.he_button_ok:
-                    String name;
-                    double brix;
-                    String flavor;
-
-                    //Set Data from Dialog
-
-                    mEditText = (EditText) findViewById(R.id.he_name);
-                    if (mEditText.getText().toString() != null) {
-                        name = mEditText.getText().toString();
-                    } else {
-                        name = "";
-                    }
-
-                    mEditText = (EditText) findViewById(R.id.he_brix);
-                    if (Double.parseDouble(mEditText.getText().toString()) > 0.00) {
-                        brix = Double.parseDouble(mEditText.getText().toString());
-                    } else {
-                        brix = 0.00;
-                    }
-
-                    mEditText = (EditText) findViewById(R.id.he_desc);
-                    if (mEditText.getText().toString() != null) {
-                        flavor = mEditText.getText().toString();
-                    } else {
-                        flavor = "";
-                    }
-
-                    db.insertHoney(brix, name, flavor);
-                    break;
-                case R.id.he_button_cancel:
-                    dismiss();
-                    break;
-                default:
-                    break;
-            }
-            dismiss();
-        }
-
-    }
-
-    public class NewOtherAddClass extends Dialog implements
-            View.OnClickListener {
-
-        public Activity c;
-        public Dialog d;
-
-        public NewOtherAddClass(Activity a) {
-            super(a);
-
-            this.c = a;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.other_edit);
-            Button button_ok = (Button) findViewById(R.id.oe_button_ok);
-            Button button_cancel = (Button) findViewById(R.id.oe_button_cancel);
-            button_ok.setOnClickListener(this);
-            button_cancel.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            EditText mEditText;
-            switch (view.getId()) {
-                case R.id.oe_button_ok:
-                    String name;
-                    double sg;
-                    String flavor;
-                    Additive mAddit = new Additive();
-
-                    //Set Data from Dialog
-
-                    mEditText = (EditText) findViewById(R.id.oe_name);
-                    if (mEditText.getText().toString() != null) {
-                        name = mEditText.getText().toString();
-                    } else {
-                        name = "";
-                    }
-
-                    mEditText = (EditText) findViewById(R.id.oe_sg);
-                    if (Double.parseDouble(mEditText.getText().toString()) > 0.00) {
-                        sg = Double.parseDouble(mEditText.getText().toString());
-                    } else {
-                        sg = 0.00;
-                    }
-
-                    mEditText = (EditText) findViewById(R.id.oe_desc);
-                    if (mEditText.getText().toString() != null) {
-                        flavor = mEditText.getText().toString();
-                    } else {
-                        flavor = "";
-                    }
-
-                    mAddit.setSG(sg);
-
-                    db.insertAdditive(mAddit.getBrix(), name, flavor);
-                    break;
-                case R.id.he_button_cancel:
                     dismiss();
                     break;
                 default:

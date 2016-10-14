@@ -19,13 +19,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -54,49 +52,6 @@ public class MeadDisplay extends AppCompatActivity {
     //List Views for Activity
     private ListView mHoneyList;
     private ListView mAddList;
-
-    public static boolean setListViewHeightBasedOnItems(ListView listView, int maxElements) {
-
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter != null) {
-
-            int numberOfItems = listAdapter.getCount();
-
-            // Get total height of all items.
-            int totalItemsHeight = 0;
-            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
-                View item = listAdapter.getView(itemPos, null, listView);
-                item.measure(0, 0);
-                totalItemsHeight += item.getMeasuredHeight();
-            }
-
-            // Get total height of all item dividers.
-            int totalDividersHeight = listView.getDividerHeight() *
-                    (numberOfItems - 1);
-
-            // Set list height.
-            ViewGroup.LayoutParams params = listView.getLayoutParams();
-            int mHeight, totalHeight;
-
-            totalHeight = totalItemsHeight + totalDividersHeight;
-
-            if (maxElements > numberOfItems) {
-                mHeight = maxElements * (totalHeight / numberOfItems);
-            } else {
-                mHeight = totalHeight;
-            }
-
-            params.height = mHeight;
-            listView.setLayoutParams(params);
-            listView.requestLayout();
-
-            return true;
-
-        } else {
-            return false;
-        }
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +84,6 @@ public class MeadDisplay extends AppCompatActivity {
 
         //Display MeadData
         displayMead();
-        displayListOnClick();
 
     }
 
@@ -151,11 +105,23 @@ public class MeadDisplay extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_back:
+            case R.id.abd_add_honey:
+                //Add Honey Dialog
+                NewHoneyAddClass newHoney = new NewHoneyAddClass(this, db);
+                newHoney.show();
+                return true;
+
+            case R.id.abd_add_other:
+                //Add Other Dialog
+                NewOtherAddClass newOther = new NewOtherAddClass(this, db);
+                newOther.show();
+                return true;
+
+            case R.id.abd_action_back:
                 doExit();
                 return true;
 
-            case R.id.action_settings:
+            case R.id.abd_settings:
                 // Perform App Settings
                 return true;
 
@@ -278,6 +244,9 @@ public class MeadDisplay extends AppCompatActivity {
         } else {
             estBottles.setText("0.00");
         }
+
+        //Display List Adapters
+        displayListOnClick();
     }
 
     //onClick for Name Field
@@ -523,12 +492,10 @@ public class MeadDisplay extends AppCompatActivity {
 
         // Set List Adapters
         mAddAdapter = new AddAdditionsAdapter(this, db.getAdditiveAdditionsFromMead(myMead.getId()));
-        mAddAdapter.add(new Additive("Add Other"));
         mHoneyAdapter = new AddHoneyAdapter(this, db.getHoneyAdditionsFromMead(myMead.getId()));
-        mHoneyAdapter.add(new Honey("Add Honey"));
         mAddList.setAdapter(mAddAdapter);
         mHoneyList.setAdapter(mHoneyAdapter);
-        
+
 
         mAddList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
