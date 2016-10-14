@@ -50,13 +50,17 @@ public class AddAdditionsAdapter extends ArrayAdapter {
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         convertView = mInflater.inflate(R.layout.content_add_layout, null);
 
-        TextView amount = (TextView) convertView.findViewById(R.id.al_amount);
-        TextView type = (TextView) convertView.findViewById(R.id.al_type);
-        TextView name = (TextView) convertView.findViewById(R.id.al_name);
+        TextView amountView = (TextView) convertView.findViewById(R.id.al_amount);
+        TextView typeView = (TextView) convertView.findViewById(R.id.al_type);
+        TextView nameView = (TextView) convertView.findViewById(R.id.al_name);
 
         Additive mAddit = mAddList.get(position);
+        String name = mAddit.getName();
+        double amount = mAddit.getAmount();
+        boolean isMetric = mAddit.getMetric();
+        boolean isWeight = mAddit.getIsWeight();
 
-        name.setText(mAddit.getName());
+        nameView.setText(name);
 
         String tString = ""; //temp String
 
@@ -76,8 +80,8 @@ public class AddAdditionsAdapter extends ArrayAdapter {
             }
         }
 
-        amount.setText((String.valueOf(df.format(mAddit.getAmount()))));
-        type.setText(tString);
+        amountView.setText((String.valueOf(df.format(amount))));
+        typeView.setText(tString);
 
         return convertView;
     }

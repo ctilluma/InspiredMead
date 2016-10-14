@@ -484,7 +484,7 @@ public class DBMead extends SQLiteOpenHelper {
     }
 
     public long getHoneyIDFromName(String name) {
-        String selectQuery = "SELECT " + HONEY_COLUMN_ID + " FROM " + HONEY_TABLE_NAME;
+        String selectQuery = "SELECT *  FROM " + HONEY_TABLE_NAME + " WHERE " + HONEY_COLUMN_NAME + " = \"" + name + "\"";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -518,11 +518,12 @@ public class DBMead extends SQLiteOpenHelper {
             }
         }
 
+
         return mList;
     }
 
     public long getAdditiveIDFromName(String name) {
-        String selectQuery = "SELECT " + ADDITIVE_COLUMN_ID + " FROM " + ADDITIVE_TABLE_NAME;
+        String selectQuery = "SELECT " + ADDITIVE_COLUMN_ID + " FROM " + ADDITIVE_TABLE_NAME + " WHERE " + ADDITIVE_COLUMN_NAME + " = \"" + name + "\"";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -613,6 +614,7 @@ public class DBMead extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+
 
         if (cursor.getCount() > 0) {
             // Loop all rows

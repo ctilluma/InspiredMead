@@ -14,7 +14,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -444,7 +443,6 @@ public class MeadDisplay extends AppCompatActivity {
 
     //onClick for Time - TimePicker
     public void onClickTime(View v) {
-        Log.i("OnClickTime: ", "I'M IN!!!");
         final EditText input = new EditText(this);
 
         final TimePickerDialog.OnTimeSetListener time = new TimePickerDialog.OnTimeSetListener() {

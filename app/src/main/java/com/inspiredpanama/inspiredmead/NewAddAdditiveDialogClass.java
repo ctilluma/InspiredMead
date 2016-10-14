@@ -31,7 +31,7 @@ public class NewAddAdditiveDialogClass extends Dialog implements
     private DBMead db;
 
 
-    public NewAddAdditiveDialogClass(Activity a, long meadIDdb, DBMead db) {
+    public NewAddAdditiveDialogClass(Activity a, long meadID, DBMead db) {
         super(a);
 
         this.c = a;
@@ -127,7 +127,7 @@ public class NewAddAdditiveDialogClass extends Dialog implements
                 long additiveID = db.getAdditiveIDFromName(mStringList.get(mAdditiveSpinner.getSelectedItemPosition()));
 
                 //Attempt to insert honey record into DB
-                db.insertAdditiveAdd(additiveID, meadID, mVolume, metric, weight);
+                Long result = db.insertAdditiveAdd(additiveID, meadID, mVolume, metric, weight);
 
                 break;
             case R.id.ah_button_cancel:

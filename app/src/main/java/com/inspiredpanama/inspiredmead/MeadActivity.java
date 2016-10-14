@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -201,7 +200,6 @@ public class MeadActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String strName = arrayAdapterSort.getItem(which);
-                                Log.i("onClick: Des: ", String.valueOf(which));
                                 meadSort(which, SORT_TYPE_DEC);
                                 mAdapter.notifyDataSetChanged();
                             }
@@ -228,7 +226,6 @@ public class MeadActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String strName = arrayAdapterSort.getItem(which);
-                                Log.i("onClick: Asc: ", String.valueOf(which));
                                 meadSort(which, SORT_TYPE_ASC);
                                 mAdapter.notifyDataSetChanged();
                             }
@@ -638,8 +635,6 @@ public class MeadActivity extends AppCompatActivity {
                     mFilter.setFilterSize(mSpinner.getSelectedItemPosition());
                     mFilter.setFilterDate(new GregorianCalendar());
                     mFilter.setMeadID(meadID);
-
-                    Log.i("FD(mID,waste,filter): ", String.valueOf(meadID) + " " + String.valueOf(wasteAmt) + " " + String.valueOf(mFilter.getFilterSize()));
 
                     db.updateMead(mMead);
                     db.insertFilter(mFilter);
