@@ -382,7 +382,7 @@ public class MeadDisplay extends AppCompatActivity {
     public void onClickVolume(View v) {
         //Create Alert dialog for Volume Entry
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Original Gravity");
+        alert.setTitle("Current Volume");
 
         // Create EditText view for input
         final EditText input = new EditText(this);
