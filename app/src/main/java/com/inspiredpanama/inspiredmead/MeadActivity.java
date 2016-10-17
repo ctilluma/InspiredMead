@@ -284,16 +284,28 @@ public class MeadActivity extends AppCompatActivity {
                 return true;
 
             case 3: //Add Honey
-                // Add Mead Window
-                NewAddHoneyDialogClass newHoneyClass = new NewAddHoneyDialogClass(this, mead.get(info.position).getId(), db);
-                newHoneyClass.show();
-                return true;
+                // Check for honey existing before bringing up dialog.
+                if (db.numberOfHoneyRows() > 0) {
+                    // Add Mead Window
+                    NewAddHoneyDialogClass newHoneyClass = new NewAddHoneyDialogClass(this, mead.get(info.position).getId(), db);
+                    newHoneyClass.show();
+                    return true;
+                } else {
+                    Toast.makeText(this, "You must add honey before it can be added to the mead.", Toast.LENGTH_SHORT);
+                    return false;
+                }
 
             case 4: //Add Other
-                // Add Mead Window
-                NewAddAdditiveDialogClass newAddClass = new NewAddAdditiveDialogClass(this, mead.get(info.position).getId(), db);
-                newAddClass.show();
-                return true;
+                if (db.numberOfAdditiveRows() > 0) {
+                    // Add Other Additive Window
+                    NewAddAdditiveDialogClass newAddClass = new NewAddAdditiveDialogClass(this, mead.get(info.position).getId(), db);
+                    newAddClass.show();
+                    return true;
+                } else {
+                    Toast.makeText(this, "You must add an additive before it can be added to the mead.", Toast.LENGTH_SHORT);
+                    return false;
+                }
+
 
             case 5: //Delete
                 //Bring up alert dialog to verify before deletion.
