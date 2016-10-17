@@ -1,8 +1,6 @@
 package com.inspiredpanama.inspiredmead;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -13,20 +11,20 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -324,14 +322,48 @@ public class MeadDisplay extends AppCompatActivity {
         final EditText input = new EditText(this);
 
         input.setText(String.valueOf(myMead.getWaste()));
-        input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        // input.setRawInputType(InputType.TYPE_CLASS_TEXT); //Change keyboard type
+        input.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
         alert.setView(input);
+
+        //Validate Text
+        input.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                double mDouble = 0.00;
+
+                try {
+                    mDouble = Double.parseDouble(input.getText().toString());
+
+                    //Validate
+                    if (mDouble > myMead.getVolume()) {
+                        input.setError("Waste can't be greater than volume.");
+                    } else if (mDouble < 0.00) {
+                        input.setError("Waste can't be less than zero.");
+                    }
+                } catch (NumberFormatException e) {
+                    Log.e("MeadDisp - EditWaste: ", e.toString());
+                }
+            }
+        });
 
         alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Get String and store
-                myMead.setWaste(Double.parseDouble(input.getEditableText().toString()));
+                try {
+                    myMead.setWaste(Double.parseDouble(input.getEditableText().toString()));
+                } catch (NumberFormatException e) {
+                    Log.e("MeadDisp - EditWaste: ", e.toString());
+                }
+
                 updateAndDisplay();
 
             }
@@ -356,14 +388,49 @@ public class MeadDisplay extends AppCompatActivity {
         final EditText input = new EditText(this);
 
         input.setText(String.valueOf(myMead.getCapacity()));
-        input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        // input.setRawInputType(InputType.TYPE_CLASS_TEXT); //Change keyboard type
+        input.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
         alert.setView(input);
+
+        //Validate Text
+        input.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                double mDouble = 0.00;
+
+                try {
+                    mDouble = Double.parseDouble(input.getText().toString());
+
+                    //Validate
+                    if (mDouble < myMead.getVolume()) {
+                        input.setError("Capacity can't be less than volume.");
+                    } else if (mDouble < 0.00) {
+                        input.setError("Capacity can't be less than zero.");
+                    }
+                } catch (NumberFormatException e) {
+                    Log.e("MeadDisp - EditCap: ", e.toString());
+                }
+            }
+        });
+
 
         alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Get String and store
-                myMead.setCapacity(Double.parseDouble(input.getEditableText().toString()));
+                try {
+                    myMead.setCapacity(Double.parseDouble(input.getEditableText().toString()));
+                } catch (NumberFormatException e) {
+                    Log.e("MeadDisp - EditCap: ", e.toString());
+                }
+
                 updateAndDisplay();
 
             }
@@ -388,25 +455,59 @@ public class MeadDisplay extends AppCompatActivity {
         final EditText input = new EditText(this);
 
         input.setText(String.valueOf(myMead.getVolume()));
-        input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        // input.setRawInputType(InputType.TYPE_CLASS_TEXT); //Change keyboard type
+        input.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
         alert.setView(input);
+
+        //Validate Text
+        input.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                double mDouble = 0.00;
+
+                try {
+                    mDouble = Double.parseDouble(input.getText().toString());
+
+                    //Validate
+                    if (mDouble > myMead.getCapacity()) {
+                        input.setError("Volume can't be greater than capacity.");
+                    } else if (mDouble < 0.00) {
+                        input.setError("Volume can't be less than zero.");
+                    }
+                } catch (NumberFormatException e) {
+                    Log.e("MeadDisp - EditVolume: ", e.toString());
+                }
+            }
+        });
 
         alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Get String and store
-                myMead.setVolume(Double.parseDouble(input.getEditableText().toString()));
+                try {
+                    myMead.setVolume(Double.parseDouble(input.getEditableText().toString()));
+                } catch (NumberFormatException e) {
+                    Log.e("MeadDisp - EditVolume: ", e.toString());
+                }
+
                 updateAndDisplay();
-
-
             }
         });
+
         alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 // Canceled.
                 dialog.cancel();
             }
         });
+
         AlertDialog alertDialog = alert.create();
         alertDialog.show();
     }
@@ -468,8 +569,12 @@ public class MeadDisplay extends AppCompatActivity {
 
     //onClick for NewTest Field
     public void onClickTest(View v) {
-        NewTestDialogClass newTestClass = new NewTestDialogClass(this);
+        NewTestDialogClass newTestClass = new NewTestDialogClass(this, myMead.getId());
         newTestClass.show();
+
+        //Let Adapter know to update
+        mAdapter.notifyDataSetChanged();
+
         displayMead();
     }
 
@@ -515,69 +620,6 @@ public class MeadDisplay extends AppCompatActivity {
             }
         });
 
-    }
-
-    public class NewTestDialogClass extends Dialog implements
-            android.view.View.OnClickListener {
-
-        public Activity c;
-        public Dialog d;
-
-        public NewTestDialogClass(Activity a) {
-            super(a);
-
-            this.c = a;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.new_test_dialog);
-            Button button_ok = (Button) findViewById(R.id.button_ok);
-            Button button_cancel = (Button) findViewById(R.id.button_cancel);
-            button_ok.setOnClickListener(this);
-            button_cancel.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.button_ok:
-
-                    double myTest = 1.0;
-                    TextView textView;
-
-                    //Set Data from Dialog
-
-                    textView = (TextView) findViewById(R.id.sg);
-                    if (!textView.getText().toString().isEmpty()) {
-                        myTest = Double.parseDouble(textView.getText().toString());
-                        SpecGravity myTestSpec = new SpecGravity(myTest);
-
-                        //Add to database and get database ID
-                        myTestSpec.setID(db.insertTest(myTestSpec.getTestGravity(), myTestSpec.getTestDate().getTimeInMillis(), myMead.getId()));
-
-                        myMead.setLastTest(myTestSpec);
-
-                        //Get Alcohol Level put entries into current and update mead record.
-                        Double mAlcohol = myTestSpec.getAlcohol(myMead.getOG());
-                        myMead.setAlcohol(mAlcohol);
-                        db.updateMead(myMead);
-
-                    } else {
-                        Toast.makeText(c, "Test Entry Database Insert Failed", Toast.LENGTH_SHORT).show();
-                    }
-
-                    break;
-                case R.id.button_cancel:
-                    dismiss();
-                    break;
-                default:
-                    break;
-            }
-            dismiss();
-        }
     }
 
 }

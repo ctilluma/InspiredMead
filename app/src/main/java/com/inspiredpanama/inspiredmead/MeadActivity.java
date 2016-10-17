@@ -11,6 +11,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +25,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -176,8 +177,14 @@ public class MeadActivity extends AppCompatActivity {
 
             case R.id.abm_action_add:
                 // Add Mead Window
-                NewMeadDialogClass newMeadClass = new NewMeadDialogClass(this);
+                NewMeadDialogClass newMeadClass = new NewMeadDialogClass(this, new Mead());
                 newMeadClass.show();
+
+                //Add Mead Record to List
+                mead.add(new MeadData(newMeadClass.mMead));
+
+                //Let Adapter know to update
+                mAdapter.notifyDataSetChanged();
 
                 return true;
 
@@ -270,8 +277,12 @@ public class MeadActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case 0: //Test
-                NewTestDialogClass newTestClass = new NewTestDialogClass(this, info.position);
+                NewTestDialogClass newTestClass = new NewTestDialogClass(this, mead.get(info.position).getId());
                 newTestClass.show();
+
+                //Let Adapter know to update
+                mAdapter.notifyDataSetChanged();
+
                 return true;
 
             case 1: //Filter and Rack
@@ -291,7 +302,7 @@ public class MeadActivity extends AppCompatActivity {
                     newHoneyClass.show();
                     return true;
                 } else {
-                    Toast.makeText(this, "You must add honey before it can be added to the mead.", Toast.LENGTH_SHORT);
+                    Toast.makeText(MeadActivity.this, "You must add honey before it can be added to the mead.", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
@@ -302,7 +313,7 @@ public class MeadActivity extends AppCompatActivity {
                     newAddClass.show();
                     return true;
                 } else {
-                    Toast.makeText(this, "You must add an additive before it can be added to the mead.", Toast.LENGTH_SHORT);
+                    Toast.makeText(MeadActivity.this, "You must add an additive before it can be added to the mead.", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
@@ -511,94 +522,6 @@ public class MeadActivity extends AppCompatActivity {
         client.disconnect();
     }
 
-    public class NewMeadDialogClass extends Dialog implements
-            View.OnClickListener {
-
-        public Activity c;
-        public Dialog d;
-
-        public NewMeadDialogClass(Activity a) {
-            super(a);
-
-            this.c = a;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.mead_edit);
-            Button button_ok = (Button) findViewById(R.id.button_ok);
-            Button button_cancel = (Button) findViewById(R.id.button_cancel);
-            button_ok.setOnClickListener(this);
-            button_cancel.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.button_ok:
-                    Mead myMead = new Mead();
-                    long myID = 0;
-                    TextView textView;
-
-                    //Set Data from Dialog
-                    //TODO Check boundaries of numbers
-                    textView = (TextView) findViewById(R.id.name);
-                    if (textView.getText().toString() == null || textView.getText().toString().isEmpty()) {
-                        myMead.setName("");
-                    } else {
-                        myMead.setName(textView.getText().toString());
-                    }
-
-                    textView = (TextView) findViewById(R.id.og);
-                    if (textView.getText().toString() == null || textView.getText().toString().isEmpty()) {
-                        myMead.setOG(0.000);
-                    } else {
-                        myMead.setOG(Double.parseDouble(textView.getText().toString()));
-                    }
-
-                    textView = (TextView) findViewById(R.id.capacity);
-                    if (textView.getText().toString() == null || textView.getText().toString().isEmpty()) {
-                        myMead.setCapacity(19.000);
-                    } else {
-                        myMead.setCapacity(Double.parseDouble(textView.getText().toString()));
-                    }
-                    textView = (TextView) findViewById(R.id.volume);
-                    if (textView.getText().toString() == null || textView.getText().toString().isEmpty()) {
-                        myMead.setVolume(0.000);
-                    } else {
-                        myMead.setVolume(Double.parseDouble(textView.getText().toString()));
-                    }
-
-                    myMead.setStartDate(new GregorianCalendar());
-
-                    //Attempt to insert mead record into DB
-                    myID = db.insertMead(myMead);
-
-
-                    //Check if data was entered by ID > 0
-                    if (myID > 0) {
-                        //Retrieve proper mead record from database
-                        myMead = db.getMeadRecordFromID(myID);
-                        //Add Mead Record to List
-                        mead.add(new MeadData(myMead));
-
-                        //Let Adapter know to update
-                        mAdapter.notifyDataSetChanged();
-                    } else {
-                        Toast.makeText(c, "Mead Entry Database Insert Failed", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                case R.id.button_cancel:
-                    dismiss();
-                    break;
-                default:
-                    break;
-            }
-            dismiss();
-        }
-    }
 
     public class NewFilterDialogClass extends Dialog implements
             View.OnClickListener {
@@ -606,6 +529,8 @@ public class MeadActivity extends AppCompatActivity {
         public Activity c;
         public Dialog d;
         Spinner mSpinner;
+        Mead mMead;
+        EditText mText;
         private long meadID;
 
         public NewFilterDialogClass(Activity a, long meadID) {
@@ -630,6 +555,45 @@ public class MeadActivity extends AppCompatActivity {
             mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinner.setAdapter(mAdapter);
 
+            //Get Mead Record
+            mMead = db.getMeadRecordFromID(meadID);
+
+
+            //Set EditText
+            mText = (EditText) findViewById(R.id.fd_waste);
+
+            //Validate Text
+            mText.addTextChangedListener(new TextWatcher() {
+
+                public void afterTextChanged(Editable s) {
+                }
+
+                public void beforeTextChanged(CharSequence s, int start,
+                                              int count, int after) {
+                }
+
+                public void onTextChanged(CharSequence s, int start,
+                                          int before, int count) {
+                    //Validate Specific Gravity
+
+                    double tDouble = 0.00;
+                    try {
+                        tDouble = Double.parseDouble(mText.getText().toString());
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(MeadActivity.this, "Invalid Number", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (tDouble < 0.00) {
+                        mText.setError("Can't be negative.");
+                    } else {
+                        if (tDouble > mMead.getVolume()) {
+                            mText.setError("Can't be greater than total volume.");
+                        }
+                    }
+
+
+                }
+            });
         }
 
         @Override
@@ -639,8 +603,6 @@ public class MeadActivity extends AppCompatActivity {
                     EditText waste = (EditText) findViewById(R.id.fd_waste);
                     Double wasteAmt = Double.parseDouble(waste.getText().toString());
 
-                    //Get Mead Record
-                    Mead mMead = db.getMeadRecordFromID(meadID);
                     mMead.addWaste(wasteAmt);
 
                     Filter mFilter = new Filter();
@@ -664,75 +626,6 @@ public class MeadActivity extends AppCompatActivity {
         }
     }
 
-    public class NewTestDialogClass extends Dialog implements
-            View.OnClickListener {
 
-        public Activity c;
-        public Dialog d;
-        private int meadID;
-
-        public NewTestDialogClass(Activity a, int meadID) {
-            super(a);
-
-            this.c = a;
-            this.meadID = meadID;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.new_test_dialog);
-            Button button_ok = (Button) findViewById(R.id.button_ok);
-            Button button_cancel = (Button) findViewById(R.id.button_cancel);
-            button_ok.setOnClickListener(this);
-            button_cancel.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.button_ok:
-
-                    double myTest = 1.0;
-                    TextView textView;
-
-                    //Set Data from Dialog
-
-                    textView = (TextView) findViewById(R.id.sg);
-                    if (!textView.getText().toString().isEmpty()) {
-                        myTest = Double.parseDouble(textView.getText().toString());
-                        SpecGravity myTestSpec = new SpecGravity(myTest);
-
-                        //Add to database and get database ID
-                        myTestSpec.setID(db.insertTest(myTestSpec.getTestGravity(), myTestSpec.getTestDate().getTimeInMillis(), mead.get(meadID).getId()));
-
-                        mead.get(meadID).setDate(myTestSpec.getTestDate());
-
-                        //Get Alcohol Level put entries into current and update mead record.
-                        Mead mMead = db.getMeadRecordFromID(mead.get(meadID).getId());
-                        Double mAlcohol = myTestSpec.getAlcohol(mMead.getOG());
-                        mMead.setAlcohol(mAlcohol);
-                        db.updateMead(mMead);
-                        mead.get(meadID).setAlcohol(myTestSpec.getAlcohol(db.getMeadRecordFromID(mead.get(meadID).getId()).getOG()));
-
-                    } else {
-                        Toast.makeText(c, "Test Entry Database Insert Failed", Toast.LENGTH_SHORT).show();
-                    }
-
-                    //Let Adapter know to update
-                    mAdapter.notifyDataSetChanged();
-
-                    break;
-                case R.id.button_cancel:
-                    dismiss();
-                    break;
-                default:
-                    break;
-            }
-            dismiss();
-        }
-
-    }
 
 }
