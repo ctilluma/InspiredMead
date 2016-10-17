@@ -610,6 +610,41 @@ public class MeadDisplay extends AppCompatActivity {
             }
         });
 
+        mAddList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           final int position, long arg3) {
+                AlertDialog.Builder alertDelete = new AlertDialog.Builder(
+                        MeadDisplay.this);
+                alertDelete.setTitle("Alert!!");
+                alertDelete.setMessage("Are you sure to delete entry?");
+                alertDelete.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        //Call DB to delete, then remove from stack
+                        db.deleteAdditiveAdd(db.getAdditiveAdditionsFromMead(myMead.getId()).get(position).getID());
+                        displayListOnClick();
+
+                        dialog.dismiss();
+
+                    }
+                });
+                alertDelete.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alertDelete.show();
+
+                return true;
+            }
+        });
+
         mHoneyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
@@ -619,6 +654,45 @@ public class MeadDisplay extends AppCompatActivity {
 
             }
         });
+
+        mHoneyList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           final int position, long arg3) {
+
+                AlertDialog.Builder alertDelete = new AlertDialog.Builder(
+                        MeadDisplay.this);
+                alertDelete.setTitle("Alert!!");
+                alertDelete.setMessage("Are you sure to delete entry?");
+                alertDelete.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        //Call DB to delete, then remove from stack
+                        db.deleteHoneyAdd(db.getHoneyAdditionsFromMead(myMead.getId()).get(position).getID());
+                        displayListOnClick();
+
+                        dialog.dismiss();
+
+                    }
+                });
+                alertDelete.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alertDelete.show();
+
+                return true;
+            }
+        });
+
+
+
 
     }
 

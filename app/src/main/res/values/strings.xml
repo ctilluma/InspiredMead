@@ -26,5 +26,7 @@
     <string name="add_other">Add Other</string>
     <string name="additiveName">Additive</string>
     <string name="sg">Specific Gravity</string>
+    <string name="mead_display_all">Display Empty</string>
+    <string name="mead_display_full">No Empties</string>
 </resources>
 

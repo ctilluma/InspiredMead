@@ -30,6 +30,10 @@
         android:title="@string/add_other"
         app:showAsAction="never" />
     <item
+        android:id="@+id/abm_display"
+        android:title="@string/mead_display_all"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/abm_settings"
         android:icon="@drawable/ic_action_settings"
         android:title="@string/action_settings"
