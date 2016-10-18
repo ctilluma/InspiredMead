@@ -1,5 +1,7 @@
 /**
  * Created by ctilluma on 10/8/16.
+ *
+ * Creates new additions for use in Mead
  */
 package com.inspiredpanama.inspiredmead;
 
@@ -65,14 +67,14 @@ public class AddAdditionsAdapter extends ArrayAdapter {
         String tString = ""; //temp String
 
         for (int i = 0; i < mAddList.size(); i++) {
-            if (mAddList.get(i).getIsWeight() == false) {
-                if (mAddList.get(i).getMetric() == false) {
+            if (!isWeight) {
+                if (!isMetric) {
                     tString = "gallons : ";
                 } else {
                     tString = "litres : ";
                 }
             } else {
-                if (mAddList.get(i).getMetric() == false) {
+                if (!isMetric) {
                     tString = "oz : ";
                 } else {
                     tString = "grams : ";

@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * Created by ctilluma on 10/8/16.
+ *
+ * Class to hold information about tanks of Mead
  */
 
 public class Mead {
@@ -189,7 +191,7 @@ public class Mead {
     // Methods
     public void newTest(SpecGravity testData) {
         if (testResults == null) {
-            testResults = new ArrayList<SpecGravity>();
+            testResults = new ArrayList<>();
         }
 
         testResults.add(testData);

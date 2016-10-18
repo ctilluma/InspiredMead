@@ -1,5 +1,7 @@
 /**
  * Created by ctilluma on 10/8/16.
+ *
+ * Provides dialog for adding honey
  */
 package com.inspiredpanama.inspiredmead;
 

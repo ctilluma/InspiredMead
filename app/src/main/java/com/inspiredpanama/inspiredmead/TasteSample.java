@@ -4,6 +4,8 @@ import java.util.GregorianCalendar;
 
 /**
  * Created by ctilluma on 10/8/16.
+ *
+ * Class to hold information for sampling Mead
  */
 
 // Private class for each test

@@ -2,6 +2,8 @@ package com.inspiredpanama.inspiredmead;
 
 /**
  * Created by ctilluma on 10/8/16.
+ *
+ * Class to hold information about honey
  */
 
 public class Honey {
@@ -16,11 +18,11 @@ public class Honey {
 
     //Constructors
     public Honey() {
-        this(new String());
+        this("");
     }
 
     public Honey(String name) {
-        this(name, new String());
+        this(name, "");
     }
 
     public Honey(String name, String flavour) {
@@ -58,7 +60,7 @@ public class Honey {
         return honeyID;
     }
 
-    public void setHoneyID(long id) {
+    public void setHoneyID(long honeyID) {
         this.honeyID = honeyID;
     }
 

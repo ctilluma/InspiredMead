@@ -2,6 +2,8 @@ package com.inspiredpanama.inspiredmead;
 
 /**
  * Created by ctilluma on 10/8/16.
+ *
+ * Class to hold information about additives
  */
 
 public class Additive {
@@ -17,11 +19,11 @@ public class Additive {
 
     //Constructors
     public Additive() {
-        this(new String());
+        this("");
     }
 
     public Additive(String name) {
-        this(name, new String());
+        this(name, "");
     }
 
     public Additive(String name, String flavour) {
@@ -44,6 +46,7 @@ public class Additive {
         this.amount = amount;
         this.isMetric = isMetric;
         this.isWeight = isWeight;
+        this.id = id;
     }
 
     //Getter and Setter Methods
@@ -59,7 +62,7 @@ public class Additive {
         return additiveID;
     }
 
-    public void setAdditiveID(long id) {
+    public void setAdditiveID(long additiveID) {
         this.additiveID = additiveID;
     }
 

@@ -1,7 +1,6 @@
 package com.inspiredpanama.inspiredmead;
 
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,7 +41,6 @@ public class MeadDisplay extends AppCompatActivity {
     Mead myMead;
     DBMead db;
     DecimalFormat df = new DecimalFormat("#.##");  //Format to two decimal place precision for viewing
-    private ProgressDialog pDialog;
     private MeadListAdapter mAdapter;
     private AddAdditionsAdapter mAddAdapter;
     private AddHoneyAdapter mHoneyAdapter;
@@ -75,7 +73,9 @@ public class MeadDisplay extends AppCompatActivity {
 
         ActionBar ab = getSupportActionBar();
 
-        ab.show();
+        if (ab != null) {
+            ab.show();
+        }
 
         //Display MeadData
         displayMead();
@@ -329,7 +329,7 @@ public class MeadDisplay extends AppCompatActivity {
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                double mDouble = 0.00;
+                double mDouble;
 
                 try {
                     mDouble = Double.parseDouble(input.getText().toString());
@@ -395,7 +395,7 @@ public class MeadDisplay extends AppCompatActivity {
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                double mDouble = 0.00;
+                double mDouble;
 
                 try {
                     mDouble = Double.parseDouble(input.getText().toString());
@@ -462,7 +462,7 @@ public class MeadDisplay extends AppCompatActivity {
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                double mDouble = 0.00;
+                double mDouble;
 
                 try {
                     mDouble = Double.parseDouble(input.getText().toString());

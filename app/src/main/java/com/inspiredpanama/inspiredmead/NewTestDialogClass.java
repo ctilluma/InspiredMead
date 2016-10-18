@@ -13,13 +13,15 @@ import android.widget.Toast;
 
 /**
  * Created by ctilluma on 10/17/16.
+ *
+ * Class to create new gravity test records
+ *
  */
 
 public class NewTestDialogClass extends Dialog implements
         View.OnClickListener {
 
     public Activity c;
-    public Dialog d;
     EditText mText;
     DBMead db;
     MeadData mead;
@@ -69,7 +71,7 @@ public class NewTestDialogClass extends Dialog implements
                     try {
                         tDouble = Double.parseDouble(mText.getText().toString());
                     } catch (NumberFormatException e) {
-                        Toast.makeText(c, "Invalid Number", Toast.LENGTH_SHORT);
+                        Toast.makeText(c, "Invalid Number", Toast.LENGTH_SHORT).show();
                     }
 
                     if (tDouble > 1.5) {
@@ -93,7 +95,7 @@ public class NewTestDialogClass extends Dialog implements
             // Check for what is clicked
             case R.id.button_ok:
 
-                double myTest = 1.0;
+                double myTest;
 
 
                 //Set Data from Dialog

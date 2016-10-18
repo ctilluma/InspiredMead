@@ -26,9 +26,6 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
@@ -52,14 +49,8 @@ public class MeadActivity extends AppCompatActivity {
     //Variables
     private ProgressDialog pDialog;
     private List<MeadData> mead;
-    private ListView listView;
     private MeadListAdapter mAdapter;
     private DBMead db;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     private List<MeadData> getAllMeadFromDB() {
         return db.getAllMead();
@@ -81,7 +72,7 @@ public class MeadActivity extends AppCompatActivity {
         hidePDialog();
 
         //Create and populate List
-        listView = (ListView) findViewById(R.id.list);
+        ListView listView = (ListView) findViewById(R.id.list);
         mAdapter = new MeadListAdapter(this, mead);
         listView.setAdapter(mAdapter);
         registerForContextMenu(listView);
@@ -106,11 +97,9 @@ public class MeadActivity extends AppCompatActivity {
 
         ActionBar ab = getSupportActionBar();
 
-        ab.show();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        if (ab != null) {
+            ab.show();
+        }
     }
 
     @Override
@@ -146,7 +135,7 @@ public class MeadActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        final ArrayAdapter<String> arrayAdapterSort = new ArrayAdapter<String>(
+        final ArrayAdapter<String> arrayAdapterSort = new ArrayAdapter<>(
                 MeadActivity.this,
                 android.R.layout.select_dialog_item);
         arrayAdapterSort.add("Name");
@@ -478,7 +467,7 @@ public class MeadActivity extends AppCompatActivity {
         Collections.sort(mead, new Comparator<MeadData>() {
             @Override
             public int compare(MeadData mead1, MeadData mead2) {
-                return Integer.valueOf((int) mead2.getBrewDate().getTimeInMillis()).compareTo((int) mead2.getBrewDate().getTimeInMillis());
+                return Integer.valueOf((int) mead1.getBrewDate().getTimeInMillis()).compareTo((int) mead2.getBrewDate().getTimeInMillis());
             }
         });
     }
@@ -487,7 +476,6 @@ public class MeadActivity extends AppCompatActivity {
             View.OnClickListener {
 
         public Activity c;
-        public Dialog d;
         Spinner mSpinner;
         Mead mMead;
         EditText mText;
@@ -585,7 +573,6 @@ public class MeadActivity extends AppCompatActivity {
             dismiss();
         }
     }
-
 
 
 }

@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * Created by ctilluma on 10/8/16.
+ *
+ * Database handler
  */
 
 public class DBMead extends SQLiteOpenHelper {

@@ -4,6 +4,8 @@ import java.util.GregorianCalendar;
 
 /**
  * Created by ctilluma on 10/8/16.
+ *
+ * Class to hold Specific Gravity Information
  */
 
 // Private class for each test

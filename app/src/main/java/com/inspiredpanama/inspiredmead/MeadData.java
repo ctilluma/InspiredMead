@@ -4,6 +4,8 @@ import java.util.GregorianCalendar;
 
 /**
  * Created by ctilluma on 10/10/16.
+ *
+ * Holds a small amount of information about each Mead batch for use in displaying
  */
 
 public class MeadData {
