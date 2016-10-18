@@ -586,7 +586,6 @@ public class MeadDisplay extends AppCompatActivity {
         mHoneyList = db.getHoneyAdditionsFromMead(myMead.getId());
         mAddList = db.getAdditiveAdditionsFromMead(myMead.getId());
 
-
         // Set List Adapters
         mAddAdapter = new AddAdditionsAdapter(this, mAddList);
         mHoneyAdapter = new AddHoneyAdapter(this, mHoneyList);
@@ -602,6 +601,7 @@ public class MeadDisplay extends AppCompatActivity {
                 //Start perform activty when addition is clicked - Edit Dialog
                 NewAddAdditiveDialogClass newAdditiveClass = new NewAddAdditiveDialogClass(MeadDisplay.this, myMead.getId(), db, db.getAdditiveAdditionsFromMead(myMead.getId()).get(position));
                 newAdditiveClass.show();
+                updateAndDisplay();
             }
         });
 
@@ -648,6 +648,7 @@ public class MeadDisplay extends AppCompatActivity {
                 //Start perform activty when addition is clicked - Edit Dialog
                 NewAddHoneyDialogClass newHoneyClass = new NewAddHoneyDialogClass(MeadDisplay.this, myMead.getId(), db, db.getHoneyAdditionsFromMead(myMead.getId()).get(position));
                 newHoneyClass.show();
+                updateAndDisplay();
             }
         });
 
