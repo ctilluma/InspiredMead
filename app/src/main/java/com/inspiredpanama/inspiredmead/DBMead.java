@@ -973,37 +973,37 @@ public class DBMead extends SQLiteOpenHelper {
     }
 
     // Update Tables (UPDATE)
-    public int updateTest(int id, double sg, int date, long meadID) {
+    public long updateTest(long id, double sg, int date, long meadID) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TESTS_COLUMN_SG, sg);
         contentValues.put(TESTS_COLUMN_DATE, date);
         contentValues.put(TESTS_COLUMN_MEADID, meadID);
         contentValues.put(TESTS_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
-        return db.update(TESTS_TABLE_NAME, contentValues, TESTS_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+        return db.update(TESTS_TABLE_NAME, contentValues, TESTS_COLUMN_ID + " = ? ", new String[]{Long.toString(id)});
     }
 
-    public int updateSample(int id, String taste, int date, long meadID) {
+    public long updateSample(long id, String taste, int date, long meadID) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SAMPLE_COLUMN_TASTE, taste);
         contentValues.put(SAMPLE_COLUMN_DATE, date);
         contentValues.put(SAMPLE_COLUMN_MEADID, meadID);
         contentValues.put(SAMPLE_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
-        return db.update(SAMPLE_TABLE_NAME, contentValues, SAMPLE_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+        return db.update(SAMPLE_TABLE_NAME, contentValues, SAMPLE_COLUMN_ID + " = ? ", new String[]{Long.toString(id)});
     }
 
-    public int updateHoney(int id, double brix, String name, String flavour) {
+    public long updateHoney(long id, double brix, String name, String flavour) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(HONEY_COLUMN_BRIX, brix);
         contentValues.put(HONEY_COLUMN_NAME, name);
         contentValues.put(HONEY_COLUMN_FLAVOUR, flavour);
         contentValues.put(HONEY_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
-        return db.update(HONEY_TABLE_NAME, contentValues, HONEY_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+        return db.update(HONEY_TABLE_NAME, contentValues, HONEY_COLUMN_ID + " = ? ", new String[]{Long.toString(id)});
     }
 
-    public int updateHoneyAdd(int id, long honeyID, long meadID, double volume, boolean isMetric) {
+    public long updateHoneyAdd(long id, long honeyID, long meadID, double volume, boolean isMetric) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(HONEY_ADD_COLUMN_HONEYID, honeyID);
@@ -1011,32 +1011,32 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(HONEY_ADD_COLUMN_VOLUME, volume);
         contentValues.put(HONEY_ADD_COLUMN_ISMETRIC, isMetric);
         contentValues.put(HONEY_ADD_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
-        return db.update(HONEY_ADD_TABLE_NAME, contentValues, HONEY_ADD_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+        return db.update(HONEY_ADD_TABLE_NAME, contentValues, HONEY_ADD_COLUMN_ID + " = ? ", new String[]{Long.toString(id)});
     }
 
-    public int updateAdditive(int id, double brix, String name, String flavour) {
+    public long updateAdditive(long id, double brix, String name, String flavour) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ADDITIVE_COLUMN_BRIX, brix);
         contentValues.put(ADDITIVE_COLUMN_NAME, name);
         contentValues.put(ADDITIVE_COLUMN_FLAVOUR, flavour);
         contentValues.put(ADDITIVE_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
-        return db.update(ADDITIVE_TABLE_NAME, contentValues, ADDITIVE_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+        return db.update(ADDITIVE_TABLE_NAME, contentValues, ADDITIVE_COLUMN_ID + " = ? ", new String[]{Long.toString(id)});
     }
 
-    public int updateAdditiveAdd(int id, long honeyID, long meadID, double volume, boolean isMetric, boolean isWeight) {
+    public long updateAdditiveAdd(long id, long addID, long meadID, double volume, boolean isMetric, boolean isWeight) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ADDITIVE_ADD_COLUMN_ADDITIVEID, honeyID);
+        contentValues.put(ADDITIVE_ADD_COLUMN_ADDITIVEID, addID);
         contentValues.put(ADDITIVE_ADD_COLUMN_MEADID, meadID);
         contentValues.put(ADDITIVE_ADD_COLUMN_AMOUNT, volume);
         contentValues.put(ADDITIVE_ADD_COLUMN_ISMETRIC, isMetric);
         contentValues.put(ADDITIVE_ADD_COLUMN_ISWEIGHT, isWeight);
         contentValues.put(ADDITIVE_ADD_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
-        return db.update(ADDITIVE_ADD_TABLE_NAME, contentValues, ADDITIVE_ADD_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+        return db.update(ADDITIVE_ADD_TABLE_NAME, contentValues, ADDITIVE_ADD_COLUMN_ID + " = ? ", new String[]{Long.toString(id)});
     }
 
-    public int updateMead(long id, String name, double og, double capacity, double volume, double alcohol) {
+    public long updateMead(long id, String name, double og, double capacity, double volume, double alcohol) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(MEAD_COLUMN_NAME, name);
@@ -1048,7 +1048,7 @@ public class DBMead extends SQLiteOpenHelper {
         return db.update(MEAD_TABLE_NAME, contentValues, MEAD_COLUMN_ID + " = ? ", new String[]{Long.toString(id)});
     }
 
-    public int updateMead(Mead mMead) {
+    public long updateMead(Mead mMead) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(MEAD_COLUMN_NAME, mMead.getName());
@@ -1064,7 +1064,7 @@ public class DBMead extends SQLiteOpenHelper {
         return db.update(MEAD_TABLE_NAME, contentValues, MEAD_COLUMN_ID + " = ? ", new String[]{Long.toString(mMead.getId())});
     }
 
-    public int updateInventory(int id, long meadID, double volume, double quantity, GregorianCalendar date) {
+    public long updateInventory(long id, long meadID, double volume, double quantity, GregorianCalendar date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(INVENTORY_COLUMN_MEADID, meadID);
@@ -1072,7 +1072,7 @@ public class DBMead extends SQLiteOpenHelper {
         contentValues.put(INVENTORY_COLUMN_QUANTITY, quantity);
         contentValues.put(INVENTORY_COLUMN_DATE, date.getTimeInMillis());
         contentValues.put(INVENTORY_COLUMN_UPDATED, (new GregorianCalendar()).getTimeInMillis());
-        return db.update(INVENTORY_TABLE_NAME, contentValues, INVENTORY_COLUMN_ID + " = ? ", new String[]{Integer.toString(id)});
+        return db.update(INVENTORY_TABLE_NAME, contentValues, INVENTORY_COLUMN_ID + " = ? ", new String[]{Long.toString(id)});
     }
 
 

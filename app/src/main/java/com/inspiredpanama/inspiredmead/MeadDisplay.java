@@ -30,6 +30,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import static java.lang.Math.round;
 
@@ -45,10 +46,12 @@ public class MeadDisplay extends AppCompatActivity {
     private MeadListAdapter mAdapter;
     private AddAdditionsAdapter mAddAdapter;
     private AddHoneyAdapter mHoneyAdapter;
+    private List<Honey> mHoneyList;
+    private List<Additive> mAddList;
 
     //List Views for Activity
-    private ListView mHoneyList;
-    private ListView mAddList;
+    private ListView mHoneyListView;
+    private ListView mAddListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +66,8 @@ public class MeadDisplay extends AppCompatActivity {
 
         myMead = db.getMeadRecordFromID(meadID);
 
-        //Load DataBase Record w/ Progress Display
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
+        //Load DataBase Record
         myMead = db.getMeadRecordFromID(meadID);
-        hidePDialog();
-
 
         //Create Toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -82,13 +80,6 @@ public class MeadDisplay extends AppCompatActivity {
         //Display MeadData
         displayMead();
 
-    }
-
-    private void hidePDialog() {
-        if (pDialog != null) {
-            pDialog.dismiss();
-            pDialog = null;
-        }
     }
 
     @Override
@@ -590,27 +581,31 @@ public class MeadDisplay extends AppCompatActivity {
     }
 
     private void displayListOnClick() {
-        mHoneyList = (ListView) findViewById(R.id.md_honey_list);
-        mAddList = (ListView) findViewById(R.id.md_addition_list);
+        mHoneyListView = (ListView) findViewById(R.id.md_honey_list);
+        mAddListView = (ListView) findViewById(R.id.md_addition_list);
+        mHoneyList = db.getHoneyAdditionsFromMead(myMead.getId());
+        mAddList = db.getAdditiveAdditionsFromMead(myMead.getId());
+
 
         // Set List Adapters
-        mAddAdapter = new AddAdditionsAdapter(this, db.getAdditiveAdditionsFromMead(myMead.getId()));
-        mHoneyAdapter = new AddHoneyAdapter(this, db.getHoneyAdditionsFromMead(myMead.getId()));
-        mAddList.setAdapter(mAddAdapter);
-        mHoneyList.setAdapter(mHoneyAdapter);
+        mAddAdapter = new AddAdditionsAdapter(this, mAddList);
+        mHoneyAdapter = new AddHoneyAdapter(this, mHoneyList);
+        mAddListView.setAdapter(mAddAdapter);
+        mHoneyListView.setAdapter(mHoneyAdapter);
 
 
-        mAddList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mAddListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
 
                 //Start perform activty when addition is clicked - Edit Dialog
-
+                NewAddAdditiveDialogClass newAdditiveClass = new NewAddAdditiveDialogClass(MeadDisplay.this, myMead.getId(), db, db.getAdditiveAdditionsFromMead(myMead.getId()).get(position));
+                newAdditiveClass.show();
             }
         });
 
-        mAddList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mAddListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            final int position, long arg3) {
@@ -625,8 +620,8 @@ public class MeadDisplay extends AppCompatActivity {
 
                         //Call DB to delete, then remove from stack
                         db.deleteAdditiveAdd(db.getAdditiveAdditionsFromMead(myMead.getId()).get(position).getID());
-                        displayListOnClick();
-
+                        mAddList.remove(position);
+                        mAddAdapter.notifyDataSetChanged();
                         dialog.dismiss();
 
                     }
@@ -645,17 +640,18 @@ public class MeadDisplay extends AppCompatActivity {
             }
         });
 
-        mHoneyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mHoneyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
 
                 //Start perform activty when addition is clicked - Edit Dialog
-
+                NewAddHoneyDialogClass newHoneyClass = new NewAddHoneyDialogClass(MeadDisplay.this, myMead.getId(), db, db.getHoneyAdditionsFromMead(myMead.getId()).get(position));
+                newHoneyClass.show();
             }
         });
 
-        mHoneyList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mHoneyListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            final int position, long arg3) {
@@ -671,8 +667,8 @@ public class MeadDisplay extends AppCompatActivity {
 
                         //Call DB to delete, then remove from stack
                         db.deleteHoneyAdd(db.getHoneyAdditionsFromMead(myMead.getId()).get(position).getID());
-                        displayListOnClick();
-
+                        mHoneyList.remove(position);
+                        mHoneyAdapter.notifyDataSetChanged();
                         dialog.dismiss();
 
                     }
